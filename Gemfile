@@ -10,6 +10,8 @@ gem 'pg'
 gem 'puma'
 gem 'bcrypt'
 
+gem 'dry-types'
+
 group :development do
   gem 'listen'
 end
