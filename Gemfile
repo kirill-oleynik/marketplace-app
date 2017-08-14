@@ -17,6 +17,7 @@ gem 'dry-matcher'
 gem 'dry-container'
 gem 'dry-validation'
 gem 'dry-auto_inject'
+gem 'dry-transaction'
 
 group :development do
   gem 'listen'
