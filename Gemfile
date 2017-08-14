@@ -12,6 +12,7 @@ gem 'bcrypt'
 
 gem 'dry-types'
 gem 'dry-struct'
+gem 'dry-monads'
 
 group :development do
   gem 'listen'

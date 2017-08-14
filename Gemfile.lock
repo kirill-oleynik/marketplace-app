@@ -62,6 +62,9 @@ GEM
       dry-container (~> 0.2, >= 0.2.6)
       dry-core (~> 0.2)
       dry-equalizer (~> 0.2)
+    dry-monads (0.3.1)
+      dry-core
+      dry-equalizer
     dry-struct (0.3.1)
       dry-configurable (~> 0.1)
       dry-core (~> 0.3)
@@ -183,6 +186,7 @@ DEPENDENCIES
   byebug
   database_cleaner
   dotenv-rails
+  dry-monads
   dry-struct
   dry-types
   factory_girl_rails
