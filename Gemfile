@@ -14,6 +14,7 @@ gem 'dry-types'
 gem 'dry-struct'
 gem 'dry-monads'
 gem 'dry-matcher'
+gem 'dry-container'
 
 group :development do
   gem 'listen'

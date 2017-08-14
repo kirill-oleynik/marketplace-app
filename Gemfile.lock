@@ -187,6 +187,7 @@ DEPENDENCIES
   byebug
   database_cleaner
   dotenv-rails
+  dry-container
   dry-matcher
   dry-monads
   dry-struct
