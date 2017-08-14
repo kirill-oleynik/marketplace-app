@@ -11,6 +11,7 @@ gem 'puma'
 gem 'bcrypt'
 
 gem 'dry-types'
+gem 'dry-struct'
 
 group :development do
   gem 'listen'
