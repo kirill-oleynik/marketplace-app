@@ -48,7 +48,7 @@ RSpec.describe 'Users requests' do
       it 'returns validation errors' do
         expect(users_count).to eq(0)
 
-        2.times{ post users_path, params: params }
+        2.times { post users_path, params: params }
 
         expect(response).to have_http_status(422)
         expect(response.body).to match_response_schema('errors/validation')

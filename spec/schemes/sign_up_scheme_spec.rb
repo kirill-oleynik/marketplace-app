@@ -18,7 +18,7 @@ RSpec.describe 'SignUpScheme' do
 
     it 'is invalid with value not string' do
       expect(
-        subject.call(params.merge(first_name: 123456)).success?
+        subject.call(params.merge(first_name: 1234)).success?
       ).to be_falsey
     end
 
@@ -38,7 +38,7 @@ RSpec.describe 'SignUpScheme' do
 
     it 'is invalid with value not string' do
       expect(
-        subject.call(params.merge(last_name: 123456)).success?
+        subject.call(params.merge(last_name: 1234)).success?
       ).to be_falsey
     end
 
@@ -58,7 +58,7 @@ RSpec.describe 'SignUpScheme' do
 
     it 'is invalid with value not string' do
       expect(
-        subject.call(params.merge(email: 123456)).success?
+        subject.call(params.merge(email: 1234)).success?
       ).to be_falsey
     end
 
@@ -84,7 +84,7 @@ RSpec.describe 'SignUpScheme' do
 
     it 'is invalid with value not string' do
       expect(
-        subject.call(params.merge(password: 123456)).success?
+        subject.call(params.merge(password: 1234)).success?
       ).to be_falsey
     end
 

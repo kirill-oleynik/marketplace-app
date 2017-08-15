@@ -35,6 +35,7 @@ end
 group :development, :test do
   gem 'faker'
   gem 'byebug'
+  gem 'rubocop'
   gem 'dotenv-rails'
   gem 'awesome_print'
   gem 'factory_girl_rails'
