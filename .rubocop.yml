@@ -1,0 +1,32 @@
+AllCops:
+  DisplayCopNames: true
+  TargetRubyVersion: 2.4
+  Exclude:
+    - Gemfile
+    - config.ru
+    - bin/*
+    - db/schema.rb
+    - db/migrations/*.rb
+    - config/puma.rb
+    - config/environments/*.rb
+Documentation:
+  Enabled: false
+FrozenStringLiteralComment:
+  Enabled: false
+Style/MultilineIfModifier:
+  Enabled: false
+Style/Lambda:
+  EnforcedStyle: literal
+Style/SymbolArray:
+  EnforcedStyle: brackets
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*_spec.rb
+Metrics/MethodLength:
+  Enabled: false
+Layout/IndentHash:
+  EnforcedStyle: consistent
+Layout/IndentArray:
+  EnforcedStyle: consistent
+Layout/SpaceInLambdaLiteral:
+  EnforcedStyle: require_space
