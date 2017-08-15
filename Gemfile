@@ -28,6 +28,7 @@ end
 group :test do
   gem 'fuubar'
   gem 'rspec-rails'
+  gem 'json_matchers'
   gem 'database_cleaner'
 end
 
