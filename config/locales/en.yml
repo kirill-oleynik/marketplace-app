@@ -1,1 +1,5 @@
 en:
+  errors:
+    titles:
+      validation: ValidationError
+    not_unique: already taken

@@ -19,5 +19,6 @@ module Api
     config.api_only = true
     config.load_defaults 5.1
     config.secret_key_base = ENV['SECRET_KEY_BASE']
+    config.autoload_paths << Rails.root.join('lib')
   end
 end
