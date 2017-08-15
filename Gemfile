@@ -19,6 +19,8 @@ gem 'dry-validation'
 gem 'dry-auto_inject'
 gem 'dry-transaction'
 
+gem 'active_model_serializers'
+
 group :development do
   gem 'listen'
 end
