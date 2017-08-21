@@ -8,7 +8,9 @@ end
 gem 'rails'
 gem 'pg'
 gem 'puma'
+gem 'redis'
 gem 'bcrypt'
+gem 'jwt'
 
 gem 'dry-types'
 gem 'dry-struct'

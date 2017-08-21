@@ -14,7 +14,10 @@ module Responder
                serializer: ValidationErrorSerializer
       end
 
-      result.failure do |value|
+      result.failure :unauthorized do |value|
+        error = Errors::Authentication.new(violations: value)
+        render json: error, status: 401, root: 'error',
+               serializer: ValidationErrorSerializer
       end
     end
   end

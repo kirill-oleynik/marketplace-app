@@ -28,7 +28,7 @@ RSpec.describe 'Users requests' do
         )
       end
 
-      it 'returns validation errors' do
+      it 'returns validation errors', :with_db_cleaner do
         post users_path, params: params
 
         expect(response).to have_http_status(422)
