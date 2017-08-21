@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "required": ["error"],
+  "properties": {
+    "error": {
+      "type": "object",
+      "required": ["title", "violations"],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "violations": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

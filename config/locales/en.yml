@@ -2,4 +2,6 @@ en:
   errors:
     titles:
       validation: ValidationError
+      authentication: AuthenticationError
     not_unique: already taken
+    authentication: Invalid credentials
