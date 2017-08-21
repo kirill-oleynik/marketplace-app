@@ -45,7 +45,7 @@ RSpec.describe 'Users requests' do
         )
       end
 
-      it 'returns validation errors' do
+      it 'returns validation errors', :with_db_cleaner do
         expect(users_count).to eq(0)
 
         2.times { post users_path, params: params }
