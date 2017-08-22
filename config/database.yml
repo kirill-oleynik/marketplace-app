@@ -1,6 +1,6 @@
 default: &default
   url: <%= ENV['DATABASE_URL'] %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch('RAILS_THREADS_COUNT') { 5 } %>
 
 development:
   <<: *default
