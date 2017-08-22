@@ -2,7 +2,7 @@ class SignUpInteraction
   include Dry::Transaction
   include Inject[
     scheme: 'schemes.sign_up',
-    bcrypt: 'utils.bcrypt',
+    bcrypt: 'adapters.bcrypt',
     repository: 'repositories.user'
   ]
 

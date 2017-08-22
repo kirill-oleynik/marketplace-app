@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SignUpInteraction do
+RSpec.describe SignInInteraction do
   subject(:result) do
     SignInInteraction.new(
       sign_in_scheme: sign_in_scheme,

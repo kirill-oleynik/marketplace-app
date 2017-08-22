@@ -4,9 +4,9 @@ class CreateAuthCredentials
 
   include Dry::Transaction
   include Inject[
-    bcrypt: 'utils.bcrypt',
-    jwt: 'utils.jwt',
-    redis: 'utils.redis'
+    bcrypt: 'adapters.bcrypt',
+    jwt: 'adapters.jwt',
+    redis: 'adapters.redis'
   ]
 
   step :refresh_token

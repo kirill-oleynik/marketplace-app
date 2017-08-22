@@ -10,7 +10,7 @@ class Container
     register('sign_in') { SignInScheme }
   end
 
-  namespace 'utils' do
+  namespace 'adapters' do
     register('bcrypt') { BcryptAdapter.new }
     register('jwt') { JwtAdapter.new }
     register('redis') { RedisAdapter.new }

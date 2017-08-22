@@ -6,10 +6,11 @@ RSpec.describe 'Sessions requests' do
       post sessions_path, params: params
     end
 
-    let!(:user) { create(:user, password_hash: password_hash(password)) }
     let!(:password) { SecureRandom.hex(5) }
 
     context 'when params are valid' do
+      let!(:user) { create(:user, password_hash: password_hash(password)) }
+
       let(:params) do
         {
           email: user.email,
@@ -19,41 +20,31 @@ RSpec.describe 'Sessions requests' do
 
       it 'returns success response with credentials', :with_db_cleaner do
         expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)).to include('access_token')
-        expect(JSON.parse(response.body)).to include('refresh_token')
-        expect(JSON.parse(response.body)).to include('client_id')
+
+        body = JSON.parse(response.body)
+
+        expect(body).to include('access_token')
+        expect(body).to include('refresh_token')
+        expect(body).to include('client_id')
       end
     end
 
-    context 'when password is invalid' do
+    context 'when params is invalid' do
       let(:params) do
         {
-          email: user.email,
-          password: 'invalid'
+          email: 'johndou:example.com'
         }
       end
 
-      it 'returns authorization error', :with_db_cleaner do
-        expect(response).to have_http_status(401)
-        expect(response.body).to match_response_schema('errors/authorization')
-      end
-    end
-
-    context 'when password has invalid format' do
-      let(:params) do
-        {
-          email: user.email,
-          password: ''
-        }
-      end
-
-      it 'returns 422 error', :with_db_cleaner do
+      it 'returns 422 error' do
         expect(response).to have_http_status(422)
-        expect(response.body).to match_response_schema('errors/authorization')
+        expect(response.body).to match_response_schema('errors/validation')
       end
     end
 
-    context 'when email is invalid' do
+    context 'when email is wrong' do
+      let!(:user) { create(:user, password_hash: password_hash(password)) }
+
       let(:params) do
         {
           email: "invalid#{user.email}",
@@ -63,20 +54,6 @@ RSpec.describe 'Sessions requests' do
 
       it 'returns unauthorized error', :with_db_cleaner do
         expect(response).to have_http_status(401)
-        expect(response.body).to match_response_schema('errors/authorization')
-      end
-    end
-
-    context 'when email has invalid format' do
-      let(:params) do
-        {
-          email: 'invalid',
-          password: password
-        }
-      end
-
-      it 'returns 422 error', :with_db_cleaner do
-        expect(response).to have_http_status(422)
         expect(response.body).to match_response_schema('errors/authorization')
       end
     end

@@ -1,7 +1,7 @@
 class SignInInteraction
   include Dry::Transaction
   include Inject[
-    bcrypt: 'utils.bcrypt',
+    bcrypt: 'adapters.bcrypt',
     create_auth_credentials: 'commands.create_auth_credentials',
     sign_in_scheme: 'schemes.sign_in',
     repository: 'repositories.user'

@@ -1,17 +1,19 @@
 class RedisAdapter
   def set(key, value)
-    redis_server.set(key, value)
+    connection.set(key, value)
   end
 
   def expire(key, exp)
-    redis_server.expire(key, exp)
+    connection.expire(key, exp)
   end
 
   def exists(value)
-    redis_server.exists(value)
+    connection.exists(value)
   end
 
-  def redis_server
-    @redis_server ||= Redis.new(url: ENV['REDIS_URL'])
+  private
+
+  def connection
+    @connection ||= Redis.current
   end
 end
