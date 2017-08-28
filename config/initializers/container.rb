@@ -6,8 +6,9 @@ class Container
   end
 
   namespace 'schemes' do
-    register('sign_up') { SignUpScheme }
+    register('restore_session') { RestoreSessionScheme }
     register('sign_in') { SignInScheme }
+    register('sign_up') { SignUpScheme }
   end
 
   namespace 'adapters' do

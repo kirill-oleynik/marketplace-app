@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe JwtAdapter do
-  describe '#encode' do
-    let(:payload) { { sample: 'hash' } }
+  let(:payload) { { sample: 'hash' } }
 
+  describe '#encode' do
     it 'encodes with HS512 algorithm' do
       expect(
         subject.encode(payload)
@@ -18,6 +18,14 @@ RSpec.describe JwtAdapter do
       ).to match(
         /eyJzYW1wbGUiOiJoYXNoIn0./
       )
+    end
+  end
+
+  describe '#decode' do
+    let(:encoded) { subject.encode(payload) }
+
+    it 'returns decoded payload with stringifyed keys' do
+      expect(subject.decode(encoded)).to eq(payload.stringify_keys)
     end
   end
 end

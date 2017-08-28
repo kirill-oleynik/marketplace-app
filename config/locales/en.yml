@@ -5,3 +5,5 @@ en:
       authentication: AuthenticationError
     not_unique: already taken
     authentication: Invalid credentials
+    session_expired: Session expired
+    user_not_found: User not found
