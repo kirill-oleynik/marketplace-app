@@ -21,7 +21,6 @@ class CreateAuthCredentials
   def client_id(input)
     client_id = SecureRandom.hex(10)
     client_id = SecureRandom.hex(10) while redis.exists(client_id)
-
     Right(input.merge(client_id: client_id))
   end
 
@@ -32,7 +31,7 @@ class CreateAuthCredentials
       exp: REFRESH_TOKEN_EXP
     }
 
-    redis.set(input[:client_id], session_data)
+    redis.set(input[:client_id], session_data.to_json)
     redis.expire(input[:client_id], REFRESH_TOKEN_EXP)
 
     Right(input)

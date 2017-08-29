@@ -26,5 +26,16 @@ RSpec.describe RedisAdapter do
     end
   end
 
+  describe '#get' do
+    it 'returns value if given key exists' do
+      subject.set('key', 'value')
+      expect(subject.get('key')).to eq('value')
+    end
+
+    it 'returns nil if given key not exists' do
+      expect(subject.get('undefined')).to be_nil
+    end
+  end
+
   after { redis_connection.flushall }
 end

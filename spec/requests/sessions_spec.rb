@@ -58,4 +58,67 @@ RSpec.describe 'Sessions requests' do
       end
     end
   end
+
+  describe '#update' do
+    context 'when credentials are invalid' do
+      before(:each) do
+        put session_path, headers: headers
+      end
+
+      context 'when headers are not given' do
+        let(:headers) { {} }
+
+        it 'returns 422 status with errors' do
+          expect(response).to have_http_status(422)
+          expect(response.body).to match_response_schema('errors/authorization')
+        end
+      end
+
+      context 'when given headers are not valid' do
+        let(:headers) do
+          {
+            'x-auth-token' => 'invalid_value',
+            'client-id' => 'invalid_value'
+          }
+        end
+
+        it 'returns 401 status with errors' do
+          expect(response).to have_http_status(401)
+          expect(response.body).to match_response_schema('errors/authorization')
+        end
+      end
+    end
+
+    context 'when credentials are valid' do
+      let!(:user) { create(:user) }
+
+      let(:redis) { RedisAdapter.new }
+
+      let(:bcrypt) { BcryptAdapter.new }
+
+      let(:session_data) do
+        {
+          client_id: 'client_id',
+          refresh_token: bcrypt.encode('refresh_token'),
+          user_id: user.id
+        }
+      end
+
+      let(:headers) do
+        {
+          'x-auth-token' => 'refresh_token',
+          'client-id' => 'client_id'
+        }
+      end
+
+      before(:each) do
+        redis.set('client_id', session_data.to_json)
+        put session_path, headers: headers
+      end
+
+      it 'returns 200 status with new credentials', :with_db_cleaner do
+        expect(response).to have_http_status(200)
+      end
+    end
+  end
 end
