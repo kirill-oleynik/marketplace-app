@@ -11,6 +11,10 @@ class RedisAdapter
     connection.exists(value)
   end
 
+  def get(key)
+    connection.get(key)
+  end
+
   private
 
   def connection
