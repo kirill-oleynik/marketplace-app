@@ -3,16 +3,16 @@ class RedisAdapter
     redis { |connection| connection.set(key, value) }
   end
 
+  def get(key)
+    redis { |connection| connection.get(key) }
+  end
+
   def expire(key, exp)
     redis { |connection| connection.expire(key, exp) }
   end
 
   def exists(value)
     redis { |connection| connection.exists(value) }
-  end
-
-  def get(key)
-    connection.get(key)
   end
 
   private
