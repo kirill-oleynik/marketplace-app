@@ -1,19 +1,21 @@
 class RedisAdapter
   def set(key, value)
-    connection.set(key, value)
+    redis { |connection| connection.set(key, value) }
   end
 
   def expire(key, exp)
-    connection.expire(key, exp)
+    redis { |connection| connection.expire(key, exp) }
   end
 
   def exists(value)
-    connection.exists(value)
+    redis { |connection| connection.exists(value) }
   end
 
   private
 
-  def connection
-    @connection ||= Redis.current
+  def redis
+    RedisConnectionPool.with do |connection|
+      yield connection
+    end
   end
 end

@@ -11,6 +11,7 @@ gem 'puma'
 gem 'redis'
 gem 'bcrypt'
 gem 'jwt'
+gem 'connection_pool'
 
 gem 'dry-types'
 gem 'dry-struct'
