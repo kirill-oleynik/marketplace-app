@@ -28,7 +28,6 @@ before_fork do
 end
 
 on_worker_boot do
-  Redis.current.client.reconnect if defined?(Redis)
   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
 end
 
