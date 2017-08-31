@@ -57,6 +57,21 @@ RSpec.describe 'Users requests' do
     end
   end
 
+  describe '#show' do
+    let(:password) { '123456' }
+    let(:encoded_password) { password_hash(password) }
+    let(:user) { create(:user, password_hash: encoded_password) }
+
+    it 'returns serialized user data', :with_db_cleaner do
+      authenticate_user(user.email, password) do |access_token|
+        get current_users_path, headers: with_auth_header(access_token)
+
+        expect(response).to have_http_status(200)
+        expect(response.body).to match_response_schema('user')
+      end
+    end
+  end
+
   def users_count
     User.count
   end
