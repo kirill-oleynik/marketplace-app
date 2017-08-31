@@ -1,4 +1,4 @@
-class CreateAuthCredentials
+class CreateAuthCredentialsCommand
   ACCESS_TOKEN_EXP = 15 * 60
   REFRESH_TOKEN_EXP = 24 * 3600
 

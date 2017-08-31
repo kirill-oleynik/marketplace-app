@@ -25,7 +25,9 @@ RSpec.describe JwtAdapter do
     let(:encoded) { subject.encode(payload) }
 
     it 'returns decoded payload with stringifyed keys' do
-      expect(subject.decode(encoded)).to eq(payload.stringify_keys)
+      expect(subject.decode(encoded)).to eq(
+        [payload.stringify_keys, { 'typ' => 'JWT', 'alg' => 'HS512' }]
+      )
     end
   end
 end

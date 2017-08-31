@@ -4,13 +4,13 @@
   "properties": {
     "error": {
       "type": "object",
-      "required": ["title", "violations"],
+      "required": ["title", "message"],
       "properties": {
         "title": {
           "type": "string"
         },
-        "violations": {
-          "type": "object"
+        "message": {
+          "type": "string"
         }
       }
     }

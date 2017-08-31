@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe ValidateRefreshToken do
+RSpec.describe ValidateRefreshTokenCommand do
   subject(:result) do
-    ValidateRefreshToken.new(
+    ValidateRefreshTokenCommand.new(
       bcrypt: bctypt,
       redis: redis,
       repository: repository

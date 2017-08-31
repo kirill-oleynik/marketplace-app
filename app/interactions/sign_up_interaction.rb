@@ -29,12 +29,8 @@ class SignUpInteraction
   end
 
   def persist(params)
-    user = repository.create!(
-      first_name: params[:first_name],
-      last_name: params[:last_name],
-      email: params[:email],
-      password_hash: params[:password_hash]
-    )
+    user_params = params.slice(:first_name, :last_name, :email, :password_hash)
+    user = repository.create!(user_params)
 
     Right(user)
   rescue ActiveRecord::RecordNotUnique

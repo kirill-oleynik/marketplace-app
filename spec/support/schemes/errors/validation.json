@@ -4,9 +4,12 @@
   "properties": {
     "error": {
       "type": "object",
-      "required": ["title", "violations"],
+      "required": ["title", "message", "violations"],
       "properties": {
         "title": {
+          "type": "string"
+        },
+        "message": {
           "type": "string"
         },
         "violations": {

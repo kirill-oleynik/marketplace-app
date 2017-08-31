@@ -1,8 +1,11 @@
 en:
   errors:
     titles:
-      validation: ValidationError
-      authentication: AuthenticationError
+      unprocessable_entity: UnprocessableEntity
+      unauthorized: Unauthorized
+    messages:
+      unprocessable_entity: Object is not valid and cannot be processed
+      unauthorized: Access is denied due to invalid credentials
     not_unique: already taken
     authentication: Invalid credentials
     session_expired: Session expired

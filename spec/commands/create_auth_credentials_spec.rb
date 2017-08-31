@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe CreateAuthCredentials do
+RSpec.describe CreateAuthCredentialsCommand do
   subject(:result) do
-    CreateAuthCredentials.new(
+    CreateAuthCredentialsCommand.new(
       jwt: jwt,
       bcrypt: bctypt,
       redis: redis
