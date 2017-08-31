@@ -1,4 +1,4 @@
-class ValidateRefreshToken
+class ValidateRefreshTokenCommand
   include Dry::Transaction
   include Inject[
     bcrypt: 'adapters.bcrypt',

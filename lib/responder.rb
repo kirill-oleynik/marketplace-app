@@ -1,5 +1,7 @@
-require_relative 'errors/validation'
 require_relative 'interaction_matcher'
+
+require_relative 'errors/unauthorized'
+require_relative 'errors/unprocessable_entity'
 
 module Responder
   def respond_with(monad, status: 200, **rest)
@@ -8,16 +10,14 @@ module Responder
         render({ json: value, root: 'data', status: status }.merge(rest))
       end
 
-      result.failure :invalid do |value|
-        error = Errors::Validation.new(violations: value)
-        render json: error, status: 422, root: 'error',
-               serializer: ValidationErrorSerializer
+      result.failure :unauthorized do
+        render status: 401,
+               json: Errors::Unauthorized.new.to_json
       end
 
-      result.failure :unauthorized do |value|
-        error = Errors::Authentication.new(violations: value)
-        render json: error, status: 401, root: 'error',
-               serializer: ValidationErrorSerializer
+      result.failure :invalid do |value|
+        render status: 422,
+               json: Errors::UnprocessableEntity.new(value).to_json
       end
     end
   end

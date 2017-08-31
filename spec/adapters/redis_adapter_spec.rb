@@ -21,14 +21,14 @@ RSpec.describe RedisAdapter do
 
   describe '#exists' do
     it 'verifies that key exits' do
-      subject.set('key', 'value')
+      redis_connection.set('key', 'value')
       expect(subject.exists('key')).to be_truthy
     end
   end
 
   describe '#get' do
     it 'returns value if given key exists' do
-      subject.set('key', 'value')
+      redis_connection.set('key', 'value')
       expect(subject.get('key')).to eq('value')
     end
 

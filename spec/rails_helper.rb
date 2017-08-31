@@ -10,7 +10,7 @@ require 'rspec/rails'
 require 'database_cleaner'
 require 'json_matchers/rspec'
 
-%w[adapters shared_examples].map do |dir|
+%w[helpers adapters shared_examples].map do |dir|
   Dir[Rails.root.join("spec/support/#{dir}/*.rb")].each { |f| require f }
 end
 
@@ -31,7 +31,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   config.include FactoryGirl::Syntax::Methods
-  config.include Adapters::BcryptAdapterHelpers
+  config.include Support::Helpers::Authentication
 
   config.prepend_before :each, with_db_cleaner: true do
     DatabaseCleaner.clean_with :truncation, except: ['ar_internal_metadata']

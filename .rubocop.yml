@@ -21,7 +21,7 @@ Style/SymbolArray:
   EnforcedStyle: brackets
 Metrics/BlockLength:
   Exclude:
-    - spec/**/*_spec.rb
+    - spec/**/*.rb
 Metrics/MethodLength:
   Enabled: false
 Layout/IndentHash:

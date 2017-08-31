@@ -1,5 +1,3 @@
-# rubocop:disable Metrics/BlockLength
-
 RSpec.shared_examples 'password validation' do
   context 'when password is a string with at list 6 items' do
     let(:params) { valid_params }

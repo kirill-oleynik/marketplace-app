@@ -7,6 +7,6 @@ class JwtAdapter
   end
 
   def decode(token)
-    JWT.decode(token, nil, false).first
+    JWT.decode(token, SECRET, true, algorithm: ALGORITHM)
   end
 end

@@ -54,7 +54,7 @@ RSpec.describe 'Sessions requests' do
 
       it 'returns unauthorized error', :with_db_cleaner do
         expect(response).to have_http_status(401)
-        expect(response.body).to match_response_schema('errors/authorization')
+        expect(response.body).to match_response_schema('errors/base')
       end
     end
   end
@@ -70,7 +70,7 @@ RSpec.describe 'Sessions requests' do
 
         it 'returns 422 status with errors' do
           expect(response).to have_http_status(422)
-          expect(response.body).to match_response_schema('errors/authorization')
+          expect(response.body).to match_response_schema('errors/validation')
         end
       end
 
@@ -84,7 +84,7 @@ RSpec.describe 'Sessions requests' do
 
         it 'returns 401 status with errors' do
           expect(response).to have_http_status(401)
-          expect(response.body).to match_response_schema('errors/authorization')
+          expect(response.body).to match_response_schema('errors/base')
         end
       end
     end
