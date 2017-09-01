@@ -3,8 +3,11 @@ Rails.application.routes.draw do
 
   resources :users, only: [:create]
 
-  resource :session, only: [:update]
-  resources :sessions, only: [:create]
+  resource :sessions, only: [:create] do
+    member do
+      put 'refresh'
+    end
+  end
 
   resource :profile, only: [:create]
 end

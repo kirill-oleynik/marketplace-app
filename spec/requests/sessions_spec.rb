@@ -59,10 +59,10 @@ RSpec.describe 'Sessions requests' do
     end
   end
 
-  describe '#update' do
+  describe '#refresh' do
     context 'when credentials are invalid' do
       before(:each) do
-        put session_path, headers: headers
+        put refresh_sessions_path, headers: headers
       end
 
       context 'when headers are not given' do
@@ -113,7 +113,7 @@ RSpec.describe 'Sessions requests' do
 
       before(:each) do
         redis.set('client_id', session_data.to_json)
-        put session_path, headers: headers
+        put refresh_sessions_path, headers: headers
       end
 
       it 'returns 200 status with new credentials', :with_db_cleaner do

@@ -4,7 +4,7 @@ class SessionsController < ApiController
     respond_with(result, status: 200)
   end
 
-  def update
+  def refresh
     result = RefreshSessionInteraction.new.call(request.headers)
     respond_with(result, status: 200)
   end
