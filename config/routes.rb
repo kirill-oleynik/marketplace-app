@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   root 'home#index'
 
-  resources :users, only: [:create]
+  resources :users, only: [:create] do
+    collection do
+      get 'current'
+    end
+  end
 
   resource :sessions, only: [:create] do
     member do
