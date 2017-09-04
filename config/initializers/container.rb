@@ -7,9 +7,9 @@ class Container
   end
 
   namespace 'schemes' do
-    register('refresh_session') { RefreshSessionScheme }
     register('sign_in') { SignInScheme }
     register('sign_up') { SignUpScheme }
+    register('refresh_session') { RefreshSessionScheme }
     register('change_extra_info') { ChangeExtraInfoScheme }
   end
 
@@ -20,7 +20,7 @@ class Container
   end
 
   namespace 'commands' do
-    register('create_auth_credentials') { CreateAuthCredentialsCommand.new }
+    register('create_session') { CreateSessionCommand.new }
     register('validate_refresh_token') { ValidateRefreshTokenCommand.new }
     register('authenticate') { AuthenticateCommand.new }
   end

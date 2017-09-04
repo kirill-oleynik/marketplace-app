@@ -1,46 +1,68 @@
 class RefreshSessionInteraction
   include Dry::Transaction
   include Inject[
-    create_auth_credentials: 'commands.create_auth_credentials',
-    refresh_session_scheme: 'schemes.refresh_session',
-    validate_refresh_token: 'commands.validate_refresh_token'
+    redis: 'adapters.redis',
+    bcrypt: 'adapters.bcrypt',
+    repository: 'repositories.user',
+    create_session: 'commands.create_session',
+    refresh_session_scheme: 'schemes.refresh_session'
   ]
 
-  step :validate_params
+  step :validate
+  step :find_session_data
   step :check_refresh_token
-  step :generate_credentials
+  step :find_user
+  step :create_new_session
 
-  def validate_params(input)
-    result = refresh_session_scheme.call(input)
+  def validate(params)
+    result = refresh_session_scheme.call(params)
 
     if result.success?
-      Right(input)
+      Right(params)
     else
-      Left([:invalid, session: [I18n.t('errors.authentication')]])
+      Left([:unauthorized])
     end
   end
 
-  def check_refresh_token(input)
-    result = validate_refresh_token.call(input)
+  def find_session_data(params)
+    session_data = redis.hgetall(params[:client_id])
 
-    if result.success?
-      Right(result.value)
+    if session_data.present?
+      Right(params.merge(
+        session_data
+      ))
     else
-      Left(result.value)
+      Left([:unauthorized])
     end
   end
 
-  def generate_credentials(input)
-    result = create_auth_credentials.call(input)
+  def check_refresh_token(params)
+    token_match = bcrypt.compare(
+      secret: params[:refresh_token],
+      secret_hash: params[:refresh_token_hash]
+    )
 
-    if result.success?
-      Right(
-        result
-          .value.to_h
-          .slice('access_token', 'refresh_token', 'client_id')
-      )
+    if token_match
+      Right(params)
     else
-      Left(result.value)
+      Left([:unauthorized])
     end
+  end
+
+  def find_user(params)
+    repository.find(params[:user_id])
+
+    Right(params)
+  rescue ActiveRecord::RecordNotFound
+    Left([:unauthorized])
+  end
+
+  def create_new_session(params)
+    session = create_session.call(
+      user_id: params[:user_id],
+      client_id: params[:client_id]
+    ).value
+
+    Right(session)
   end
 end

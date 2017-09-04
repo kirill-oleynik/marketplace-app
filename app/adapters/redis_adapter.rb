@@ -15,6 +15,14 @@ class RedisAdapter
     redis { |connection| connection.exists(value) }
   end
 
+  def hmset(key, data)
+    redis { |connection| connection.hmset(key, *data.to_a.flatten) }
+  end
+
+  def hgetall(key)
+    redis { |connection| connection.hgetall(key) }
+  end
+
   private
 
   def redis

@@ -1,12 +1,15 @@
 class BcryptAdapter
   COST = 12
 
-  def encode(secret, cost: COST)
-    BCrypt::Password.create(secret, cost: cost)
+  def encode(secret, salt: nil, cost: COST)
+    salt ||= BCrypt::Engine.generate_salt(cost)
+    BCrypt::Engine.hash_secret(secret, salt)
   end
 
-  def encode_with_salt(secret, password_hash)
-    salt = BCrypt::Password.new(password_hash).salt
-    BCrypt::Engine.hash_secret(secret, salt)
+  def compare(secret:, secret_hash:)
+    salt = BCrypt::Password.new(secret_hash).salt
+    hash = encode(secret, salt: salt)
+
+    ActiveSupport::SecurityUtils.secure_compare(hash, secret_hash)
   end
 end

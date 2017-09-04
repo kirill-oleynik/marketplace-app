@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RedisAdapter do
+RSpec.describe RedisAdapter, :with_redis_cleaner do
   let(:redis_connection) { Redis.current }
 
   describe '#set' do
@@ -37,5 +37,21 @@ RSpec.describe RedisAdapter do
     end
   end
 
-  after { redis_connection.flushall }
+  describe '#hmset' do
+    it 'stores key with hash' do
+      subject.hmset('key', foo: :bar)
+      expect(redis_connection.hget('key', 'foo')).to eq('bar')
+    end
+  end
+
+  describe '#hgetall' do
+    it 'returns hash by key' do
+      redis_connection.hmset('key', 'foo', 'bar', 'baz', 'qux')
+
+      expect(subject.hgetall('key')).to eq(
+        'foo' => 'bar',
+        'baz' => 'qux'
+      )
+    end
+  end
 end

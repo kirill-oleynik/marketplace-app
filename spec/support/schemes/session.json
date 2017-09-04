@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "type": "object",
+      "required": [
+        "client_id",
+        "access_token",
+        "refresh_token"
+      ],
+      "properties": {
+        "client_id": {
+          "type": "string"
+        },
+        "access_token": {
+          "type": "string"
+        },
+        "refresh_token": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
