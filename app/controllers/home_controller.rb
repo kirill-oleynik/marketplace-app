@@ -1,5 +1,5 @@
 class HomeController < ActionController::API
   def index
-    head 201
+    head 200
   end
 end
