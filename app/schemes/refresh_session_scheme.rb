@@ -1,4 +1,4 @@
 RefreshSessionScheme = Dry::Validation.Schema do
-  required('x-auth-token').filled(:str?)
-  required('client-id').filled(:str?)
+  required(:client_id).filled(:str?)
+  required(:refresh_token).filled(:str?)
 end

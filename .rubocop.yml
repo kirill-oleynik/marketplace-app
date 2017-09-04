@@ -30,3 +30,5 @@ Layout/IndentArray:
   EnforcedStyle: consistent
 Layout/SpaceInLambdaLiteral:
   EnforcedStyle: require_space
+Layout/FirstParameterIndentation:
+  Enabled: false

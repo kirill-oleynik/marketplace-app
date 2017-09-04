@@ -1,90 +1,96 @@
 require 'rails_helper'
 
 RSpec.describe RefreshSessionInteraction do
-  subject(:result) do
-    RefreshSessionInteraction.new(
-      create_auth_credentials: create_auth_credentials,
-      refresh_session_scheme: refresh_session_scheme,
-      validate_refresh_token: validate_refresh_token
-    ).call(params)
-  end
-
-  let(:create_auth_credentials) do
-    double('create_auth_credentials', call: create_auth_credentials_result)
-  end
-
-  let(:create_auth_credentials_result) do
-    create_auth_credentials_result = double('create_auth_credentials_result')
-
-    allow(create_auth_credentials_result)
-      .to receive_messages(
-        success?: true,
-        value: {
-          'access_token' => 'access_token',
-          'refresh_token' => 'refresh_token',
-          'client_id' => 'client_id'
-        }
-      )
-
-    create_auth_credentials_result
-  end
-
-  let(:refresh_session_scheme) do
-    -> (_) { refresh_session_scheme_result }
-  end
-
-  let(:refresh_session_scheme_result) do
-    double('refresh_session_scheme_result', success?: true)
-  end
-
-  let(:validate_refresh_token) do
-    validate_refresh_token = double('validate_refresh_token')
-    allow(validate_refresh_token)
-      .to receive(:call)
-      .and_return(double(success?: true, value: 'value'))
-    validate_refresh_token
-  end
-
-  let(:params) do
+  let(:user) { build(:user) }
+  let(:session) { Session.new(attributes_for(:session)) }
+  let(:session_data) do
     {
-      'x-auth-token': 'token',
-      'client-id': 'client_id'
+      user_id: user.id,
+      refresh_token_hash: 'refresh_token_hash'
     }
   end
 
-  describe 'when params are invalid' do
-    let(:refresh_session_scheme_result) do
-      double('refresh_session_scheme_result', success?: false)
-    end
+  let(:bcrypt) { double(compare: true) }
+  let(:redis) { double(hgetall: session_data) }
+  let(:refresh_session_scheme) { -> (*) { double(success?: true) } }
+  let(:create_session) { -> (*) { double(value: session) } }
+  let(:repository) { double(find: user) }
 
-    it 'returns Left monad with :invalid error' do
-      expect(result).to be_left
-      expect(result.value[0]).to eq(:invalid)
-    end
+  let(:params) do
+    {
+      client_id: session.client_id,
+      refresh_token: session.refresh_token
+    }
   end
 
-  describe 'when refresh token is invalid' do
-    let(:validate_refresh_token) do
-      validate_refresh_token = double('validate_refresh_token')
-      allow(validate_refresh_token)
-        .to receive(:call)
-        .and_return(
-          double(success?: false, value: [:unauthorized, ['desciption']])
-        )
-      validate_refresh_token
-    end
-
-    it 'returns Left monad with :unauthorized error' do
-      expect(result).to be_left
-    end
+  subject(:result) do
+    RefreshSessionInteraction.new(
+      redis: redis,
+      bcrypt: bcrypt,
+      repository: repository,
+      create_session: create_session,
+      refresh_session_scheme: refresh_session_scheme
+    )
   end
 
-  describe 'when all params are valid' do
-    it 'creates and returns new auth credentials' do
+  context 'when transaction was successfull' do
+    it 'returns right monad with created session' do
+      result = subject.call(params)
+
       expect(result).to be_right
-      expect(result.value).to have_key('refresh_token')
-      expect(result.value).to have_key('access_token')
-      expect(result.value).to have_key('client_id')
+      expect(result.value).to eq(session)
+    end
+  end
+
+  context 'when validation failed' do
+    let(:params) { {} }
+    let(:refresh_session_scheme) do
+      -> (*) { double(success?: false, errors: 'Ooops!') }
+    end
+
+    it 'is returns left monad with unauthorized error tuple' do
+      result = subject.call(params)
+
+      expect(result).to be_left
+      expect(result.value[0]).to eq(:unauthorized)
+    end
+  end
+
+  context 'when session data not found' do
+    let(:redis) { double(hgetall: nil) }
+
+    it 'is returns left monad with unauthorized error tuple' do
+      result = subject.call(params)
+
+      expect(result).to be_left
+      expect(result.value[0]).to eq(:unauthorized)
+    end
+  end
+
+  context 'when refresh tokens not equal' do
+    let(:bcrypt) { double(compare: false) }
+
+    it 'is returns left monad with unauthorized error tuple' do
+      result = subject.call(params)
+
+      expect(result).to be_left
+      expect(result.value[0]).to eq(:unauthorized)
+    end
+  end
+
+  context 'when user not found' do
+    let(:repository) do
+      mock = double
+      expect(mock).to receive(:find).with(user.id)
+                                    .and_raise(ActiveRecord::RecordNotFound)
+      mock
+    end
+
+    it 'is returns left monad with unauthorized error tuple' do
+      result = subject.call(params)
+
+      expect(result).to be_left
+      expect(result.value[0]).to eq(:unauthorized)
     end
   end
 end

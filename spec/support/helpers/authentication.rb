@@ -7,9 +7,9 @@ module Support
           password: password
         }
 
-        auth_data = JSON.parse(response.body)
+        auth_result = JSON.parse(response.body)
 
-        yield auth_data['access_token']
+        yield auth_result['data']['access_token']
       end
 
       def password_hash(password = SecureRandom.hex(10))

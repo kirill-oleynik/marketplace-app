@@ -19,13 +19,8 @@ RSpec.describe 'Sessions requests' do
       end
 
       it 'returns success response with credentials', :with_db_cleaner do
-        expect(response).to have_http_status(200)
-
-        body = JSON.parse(response.body)
-
-        expect(body).to include('access_token')
-        expect(body).to include('refresh_token')
-        expect(body).to include('client_id')
+        expect(response).to have_http_status(201)
+        expect(response.body).to match_response_schema('session')
       end
     end
 
@@ -62,23 +57,23 @@ RSpec.describe 'Sessions requests' do
   describe '#refresh' do
     context 'when credentials are invalid' do
       before(:each) do
-        put refresh_sessions_path, headers: headers
+        put refresh_sessions_path, params: params
       end
 
       context 'when headers are not given' do
-        let(:headers) { {} }
+        let(:params) { {} }
 
-        it 'returns 422 status with errors' do
-          expect(response).to have_http_status(422)
-          expect(response.body).to match_response_schema('errors/validation')
+        it 'returns 401 status with errors' do
+          expect(response).to have_http_status(401)
+          expect(response.body).to match_response_schema('errors/base')
         end
       end
 
       context 'when given headers are not valid' do
-        let(:headers) do
+        let(:params) do
           {
-            'x-auth-token' => 'invalid_value',
-            'client-id' => 'invalid_value'
+            'refresh_token' => 'invalid_value',
+            'client_id' => 'invalid_value'
           }
         end
 
@@ -99,21 +94,21 @@ RSpec.describe 'Sessions requests' do
       let(:session_data) do
         {
           client_id: 'client_id',
-          refresh_token: bcrypt.encode('refresh_token'),
+          refresh_token_hash: bcrypt.encode('refresh_token'),
           user_id: user.id
         }
       end
 
-      let(:headers) do
+      let(:params) do
         {
-          'x-auth-token' => 'refresh_token',
-          'client-id' => 'client_id'
+          'refresh_token' => 'refresh_token',
+          'client_id' => 'client_id'
         }
       end
 
       before(:each) do
-        redis.set('client_id', session_data.to_json)
-        put refresh_sessions_path, headers: headers
+        redis.hmset('client_id', session_data)
+        put refresh_sessions_path, params: params
       end
 
       it 'returns 200 status with new credentials', :with_db_cleaner do

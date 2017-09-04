@@ -1,99 +1,71 @@
 require 'rails_helper'
 
 RSpec.describe SignInInteraction do
+  let(:user) { build(:user) }
+  let(:session) { Session.new(attributes_for(:session)) }
+
+  let(:bcrypt) { double(compare: true) }
+  let(:sign_in_scheme) { -> (*) { double(success?: true) } }
+  let(:create_session) { -> (*) { double(value: session) } }
+  let(:repository) { double(find_by_email: user) }
+
+  let(:params) do
+    {
+      email: user.email,
+      password: '123456'
+    }
+  end
+
   subject(:result) do
     SignInInteraction.new(
-      sign_in_scheme: sign_in_scheme,
       bcrypt: bcrypt,
-      create_auth_credentials: create_auth_credentials,
+      sign_in_scheme: sign_in_scheme,
+      create_session: create_session,
       repository: repository
-    ).call(params)
+    )
   end
 
-  let!(:user) do
-    create(:user, password_hash: encoded_password)
-  end
+  context 'when transaction was successfull' do
+    it 'returns right monad with created session' do
+      result = subject.call(params)
 
-  let(:repository) do
-    mock = double('repository')
-
-    def mock.find_by(condition)
-      User.find_by(condition)
-    end
-
-    mock
-  end
-
-  let!(:encoded_password) { password_hash(password) }
-  let(:password) { SecureRandom.hex(5) }
-
-  let(:sign_in_scheme_result) do
-    double('sign_in_scheme_result', success?: true)
-  end
-
-  let(:sign_in_scheme) do
-    -> (_) { sign_in_scheme_result }
-  end
-
-  let(:bcrypt) do
-    double('bcrypt', encode_with_salt: encoded_password)
-  end
-
-  let(:access_token) { 'access_token' }
-  let(:refresh_token) { 'refresh_token' }
-  let(:client_id) { 'client_id' }
-
-  let(:create_auth_credentials) do
-    double('create_auth_credentials', call: double(value: {
-      access_token: access_token,
-      refresh_token: refresh_token,
-      client_id: client_id
-    }))
-  end
-
-  describe 'when given params are valid' do
-    let(:params) do
-      {
-        email: user.email,
-        password: password
-      }
-    end
-
-    it 'returns right monad with credentials' do
       expect(result).to be_right
-      expect(result.value[:access_token]).to eq(access_token)
-      expect(result.value[:refresh_token]).to eq(refresh_token)
-      expect(result.value[:client_id]).to eq(client_id)
+      expect(result.value).to eq(session)
     end
   end
 
-  describe 'when given email is invalid' do
-    let(:params) do
-      {
-        email: 'ivalid',
-        password: password
-      }
+  context 'when validation failed' do
+    let(:params) { {} }
+    let(:sign_in_scheme) do
+      -> (*) { double(success?: false, errors: 'Ooops!') }
     end
 
-    it 'returns right monad with credentials' do
+    it 'is returns left monad with validation error tuple' do
+      result = subject.call(params)
+
+      expect(result).to be_left
+      expect(result.value[0]).to eq(:invalid)
+      expect(result.value[1]).to eq('Ooops!')
+    end
+  end
+
+  context 'when user not found' do
+    let(:repository) { double(find_by_email: nil) }
+
+    it 'is returns left monad with unauthorized error tuple' do
+      result = subject.call(params)
+
       expect(result).to be_left
       expect(result.value[0]).to eq(:unauthorized)
     end
   end
 
-  describe 'when given password is invalid' do
-    let(:params) do
-      {
-        email: user.email,
-        password: 'invalid'
-      }
-    end
+  context 'when passwords not equal' do
+    let(:bcrypt) { double(compare: false) }
 
-    let(:bcrypt) do
-      double('bcrypt', encode_with_salt: 'invalid_hash')
-    end
+    it 'is returns left monad with unauthorized error tuple' do
+      result = subject.call(params)
 
-    it 'returns right monad with credentials' do
       expect(result).to be_left
       expect(result.value[0]).to eq(:unauthorized)
     end

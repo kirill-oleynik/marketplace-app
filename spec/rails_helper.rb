@@ -41,4 +41,8 @@ RSpec.configure do |config|
   config.append_after :each, with_db_cleaner: true do
     DatabaseCleaner.clean
   end
+
+  config.append_after :each, with_redis_cleaner: true do
+    Redis.current.flushall
+  end
 end

@@ -10,17 +10,37 @@ RSpec.describe BcryptAdapter do
 
       expect(secret_hash).to match(/^\$2a\$10\$.{53}$/)
     end
+
+    it 'uses passed salt to generate hash' do
+      salt = '$2a$10$tFb9ElwQtRyjjv1rz3ewYe'
+      secret = 'Hello World'
+      secret_hash = subject.encode(secret, salt: salt)
+
+      expect(secret_hash).to start_with('$2a$10$tFb9ElwQtRyjjv1rz3ewYe')
+    end
   end
 
-  describe '#encode_with_salt' do
-    let(:random_string) { SecureRandom.hex(5) }
-    let!(:secret) { random_string }
-    let!(:password_hash) { subject.encode(random_string) }
+  describe '#compare' do
+    describe 'when secret match to hashed secret' do
+      it 'returns true' do
+        secret = 'Hello World'
+        secret_hash = subject.encode(secret)
 
-    it 'generates secret hash by salt from other hash' do
-      expect(
-        subject.encode_with_salt(secret, password_hash)
-      ).to eq(password_hash)
+        expect(
+          subject.compare(secret: secret, secret_hash: secret_hash)
+        ).to be_truthy
+      end
+    end
+
+    describe 'when secret not match to hashed secret' do
+      it 'returns true' do
+        secret = 'Hello World'
+        secret_hash = subject.encode('World Hello')
+
+        expect(
+          subject.compare(secret: secret, secret_hash: secret_hash)
+        ).to be_falsey
+      end
     end
   end
 end
