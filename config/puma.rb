@@ -11,7 +11,8 @@ threads threads_count, threads_count
 workers_count = ENV.fetch('RAILS_WORKERS_COUNT') { 1 }
 workers workers_count
 
-state_path File.join(tmp_dir, 'puma.state')
+pidfile File.join(tmp_dir, 'pids', 'server.pid')
+state_path File.join(tmp_dir, 'pids', 'puma.state')
 
 if env.production?
   bind "unix://#{File.join(tmp_dir, 'sockets', 'puma.sock')}"
