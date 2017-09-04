@@ -14,10 +14,8 @@ workers workers_count
 state_path File.join(tmp_dir, 'puma.state')
 
 if env.production?
-  daemonize true
   bind "unix://#{File.join(tmp_dir, 'sockets', 'puma.sock')}"
 else
-  daemonize false
   port ENV.fetch('PORT') { 3000 }
 end
 
