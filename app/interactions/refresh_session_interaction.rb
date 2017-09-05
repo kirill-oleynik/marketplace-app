@@ -60,7 +60,8 @@ class RefreshSessionInteraction
   def create_new_session(params)
     session = create_session.call(
       user_id: params[:user_id],
-      client_id: params[:client_id]
+      client_id: params[:client_id],
+      remember_me: params[:remember_me]
     ).value
 
     Right(session)

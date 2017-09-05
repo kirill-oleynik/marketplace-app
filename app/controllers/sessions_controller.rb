@@ -12,7 +12,7 @@ class SessionsController < ApiController
   private
 
   def create_params
-    params.permit(:email, :password)
+    params.permit(:email, :password, :remember_me)
   end
 
   def refresh_params

@@ -39,14 +39,17 @@ class SignInInteraction
     )
 
     if password_match
-      Right(params[:user])
+      Right(params)
     else
       Left([:unauthorized])
     end
   end
 
-  def create_new_session(user)
-    session = create_session.call(user_id: user.id).value
+  def create_new_session(params)
+    session = create_session.call(
+      user_id: params[:user].id,
+      remember_me: params[:remember_me]
+    ).value
 
     Right(session)
   end
