@@ -24,9 +24,9 @@ ActiveRecord::Schema.define(version: 20170906094246) do
 
   create_table "profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "phone", null: false
-    t.string "job_title", null: false
-    t.string "organization", null: false
+    t.string "phone"
+    t.string "job_title"
+    t.string "organization"
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
   end
 

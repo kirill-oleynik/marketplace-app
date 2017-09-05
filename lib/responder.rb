@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/AbcSize
 require_relative 'interaction_matcher'
 
 require_relative 'errors/unauthorized'
@@ -20,6 +21,11 @@ module Responder
       result.failure :invalid do |value|
         render status: 422,
                json: Errors::UnprocessableEntity.new(value).to_json
+      end
+
+      result.failure :not_found do |value|
+        render status: 404,
+               json: Errors::NotFound.new(value).to_json
       end
     end
   end

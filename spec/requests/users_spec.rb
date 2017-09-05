@@ -72,6 +72,54 @@ RSpec.describe 'Users requests' do
     end
   end
 
+  describe '#update' do
+    let(:password) { '123456' }
+    let(:encoded_password) { password_hash(password) }
+    let(:user) { create(:user, password_hash: encoded_password) }
+
+    context 'when params valid' do
+      let(:params) do
+        {
+          email: 'example@email.com',
+          phone: '123'
+        }
+      end
+
+      it 'updates user and profile', :with_db_cleaner do
+        authenticate_user user.email, password do |access_token|
+          put user_path(user.id),
+              params: params,
+              headers: with_auth_header(access_token)
+
+          expect(response).to have_http_status(200)
+          expect(response.body).to match_response_schema('user')
+          expect(Profile.find_by_user_id(user.id).phone).to eq(params[:phone])
+          expect(User.find(user.id).email).to eq(params[:email])
+        end
+      end
+    end
+
+    context 'when params invalid' do
+      let(:params) do
+        {
+          email: 'email',
+          phone: 'phone'
+        }
+      end
+
+      it 'returns errors', :with_db_cleaner do
+        authenticate_user user.email, password do |access_token|
+          put user_path(user.id),
+              params: params,
+              headers: with_auth_header(access_token)
+
+          expect(response).to have_http_status(422)
+          expect(response.body).to match_response_schema('errors/validation')
+        end
+      end
+    end
+  end
+
   def users_count
     User.count
   end
