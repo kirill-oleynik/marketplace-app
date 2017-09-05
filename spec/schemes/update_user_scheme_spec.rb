@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe ChangeExtraInfoScheme do
   let(:subject) { UpdateUserScheme.call(params) }
   let(:valid_params) do
-    attributes_for(:user).merge(attributes_for(:profile)).merge(id: '1')
+    attributes_for(:user)
+      .merge(attributes_for(:profile))
+      .merge(id: '1', password: 'password')
   end
 
   describe 'when all params valid' do
@@ -71,6 +73,36 @@ RSpec.describe ChangeExtraInfoScheme do
 
     context 'when value has invalid format' do
       let(:params) { valid_params.merge(email: 1234) }
+
+      it 'is invalid' do
+        expect(subject.success?).to be_falsey
+      end
+    end
+  end
+
+  describe 'password' do
+    context 'when email is not provided' do
+      let(:params_without_email) { valid_params.except(:email) }
+
+      context 'and password is not provided' do
+        let(:params) { params_without_email.except(:password) }
+
+        it 'is valid' do
+          expect(subject.success?).to be_truthy
+        end
+      end
+
+      context 'and password is provided' do
+        let(:params) { params_without_email }
+
+        it 'is valid' do
+          expect(subject.success?).to be_truthy
+        end
+      end
+    end
+
+    context 'when email provided without password' do
+      let(:params) { valid_params.except(:password) }
 
       it 'is invalid' do
         expect(subject.success?).to be_falsey

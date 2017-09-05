@@ -80,7 +80,7 @@ RSpec.describe 'Users requests' do
     context 'when params valid' do
       let(:params) do
         {
-          email: 'example@email.com',
+          first_name: 'FirstName',
           phone: '123'
         }
       end
@@ -94,7 +94,7 @@ RSpec.describe 'Users requests' do
           expect(response).to have_http_status(200)
           expect(response.body).to match_response_schema('user')
           expect(Profile.find_by_user_id(user.id).phone).to eq(params[:phone])
-          expect(User.find(user.id).email).to eq(params[:email])
+          expect(User.find(user.id).first_name).to eq(params[:first_name])
         end
       end
     end

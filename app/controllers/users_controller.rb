@@ -25,7 +25,8 @@ class UsersController < ApiController
 
   def update_params
     params.permit(
-      :id, :first_name, :last_name, :email, :phone, :job_title, :organization
+      :id, :first_name, :last_name, :email, :password,
+      :phone, :job_title, :organization
     )
   end
 end

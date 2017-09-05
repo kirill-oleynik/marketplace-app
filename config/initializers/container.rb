@@ -26,5 +26,6 @@ class Container
     register('validate_refresh_token') { ValidateRefreshTokenCommand.new }
     register('authenticate') { AuthenticateCommand.new }
     register('update_profile_command') { UpdateProfileCommand.new }
+    register('change_email') { ChangeEmailCommand.new }
   end
 end
