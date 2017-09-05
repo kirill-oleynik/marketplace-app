@@ -1,6 +1,8 @@
 class CreateSessionCommand
   ACCESS_TOKEN_LIFETIME = 15.minutes
-  REFRESH_TOKEN_LIFETIME = 24.hours
+
+  REFRESH_TOKEN_LIFETIME = 1.day
+  REFRESH_TOKEN_WITH_REMEMBER_ME_LIFETIME = 7.days
 
   include Dry::Transaction
   include Inject[
@@ -50,15 +52,23 @@ class CreateSessionCommand
 
   def persist(data)
     client_id = data[:client_id]
+    remember_me = data.fetch(:remember_me, false)
+
+    lifetime =
+      if remember_me
+        REFRESH_TOKEN_WITH_REMEMBER_ME_LIFETIME
+      else
+        REFRESH_TOKEN_LIFETIME
+      end
 
     data_to_store = {
       user_id: data[:user_id],
-      lifetime: REFRESH_TOKEN_LIFETIME,
+      remember_me: remember_me,
       refresh_token_hash: data[:refresh_token_hash]
     }
 
     redis.hmset(client_id, data_to_store)
-    redis.expire(client_id, REFRESH_TOKEN_LIFETIME)
+    redis.expire(client_id, lifetime)
 
     Right(
       Session.new(data)
