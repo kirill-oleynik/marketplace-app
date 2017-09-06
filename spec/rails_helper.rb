@@ -9,6 +9,7 @@ abort(
 require 'rspec/rails'
 require 'database_cleaner'
 require 'json_matchers/rspec'
+require 'pundit/rspec'
 
 %w[helpers adapters shared_examples].map do |dir|
   Dir[Rails.root.join("spec/support/#{dir}/*.rb")].each { |f| require f }

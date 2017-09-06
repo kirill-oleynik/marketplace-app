@@ -1,7 +1,13 @@
 class ApiController < ActionController::API
+  include Dry::Monads::Either::Mixin
   include Responder
+  include Pundit
 
   serialization_scope :view_context
+
+  def self.unauthorized_response
+    -> (_) { respond_with Left([:unauthorized]) }
+  end
 
   private
 

@@ -12,6 +12,7 @@ gem 'redis'
 gem 'bcrypt'
 gem 'jwt'
 gem 'connection_pool'
+gem 'pundit'
 
 gem 'dry-types'
 gem 'dry-struct'

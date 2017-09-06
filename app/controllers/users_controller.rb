@@ -1,5 +1,7 @@
 class UsersController < ApiController
-  before_action :authenticate!, only: [:current]
+  before_action :authenticate!, only: [:current, :update]
+
+  rescue_from Pundit::NotAuthorizedError, with: unauthorized_response
 
   def create
     result = SignUpInteraction.new.call(create_params)
@@ -7,6 +9,7 @@ class UsersController < ApiController
   end
 
   def update
+    authorize User.find(params[:id])
     result = UpdateUserInteraction.new.call(update_params)
     respond_with(result, status: 200, serializer: UserSerializer)
   end
