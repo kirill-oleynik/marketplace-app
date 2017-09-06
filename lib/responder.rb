@@ -7,7 +7,9 @@ module Responder
   def respond_with(monad, status: 200, **rest)
     InteractionMatcher.call(monad) do |result|
       result.success do |value|
-        render({ json: value, root: 'data', status: status }.merge(rest))
+        render(
+          { json: value, root: 'data', status: status }.merge(rest)
+        )
       end
 
       result.failure :unauthorized do

@@ -4,6 +4,7 @@ class Container
   namespace 'repositories' do
     register('user') { User }
     register('profile') { Profile }
+    register('category') { Category }
   end
 
   namespace 'schemes' do

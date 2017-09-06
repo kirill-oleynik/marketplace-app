@@ -1,0 +1,46 @@
+AllCops:
+  Exclude:
+    - spec/**/*.rb
+Metrics/LineLength:
+  Max: 140
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+Style/AndOr:
+  Enabled: false
+Style/BlockDelimiters:
+  EnforcedStyle: semantic
+  IgnoredMethods:
+    # Defaults:
+    - lambda
+    - proc
+    - it
+    # Ours:
+    - specify
+    - match
+    - Transaction
+    - Success
+    - Failure
+Style/Documentation:
+  Enabled: false
+Style/Lambda:
+  Enabled: false
+Style/LambdaCall:
+  Enabled: false
+Style/MultilineBlockChain:
+  Enabled: false
+Style/SignalException:
+  Enabled: false
+Style/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+Style/StabbyLambdaParentheses:
+  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Specific exclusions
+Style/FileName:
+  Exclude:
+    - lib/dry-transaction.rb
+Style/MethodName:
+  Exclude:
+    - lib/dry-transaction.rb

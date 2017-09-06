@@ -20,7 +20,7 @@ gem 'dry-matcher'
 gem 'dry-container'
 gem 'dry-validation'
 gem 'dry-auto_inject'
-gem 'dry-transaction'
+gem 'dry-transaction', github: 'dry-rb/dry-transaction'
 
 gem 'active_model_serializers'
 
