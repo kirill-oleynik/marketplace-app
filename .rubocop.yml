@@ -9,6 +9,7 @@ AllCops:
     - db/migrations/*.rb
     - config/puma.rb
     - config/environments/*.rb
+    - vendor/**/*
 Documentation:
   Enabled: false
 FrozenStringLiteralComment:
