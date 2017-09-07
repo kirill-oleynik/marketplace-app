@@ -13,9 +13,9 @@ workers workers_count
 
 pidfile File.join(tmp_dir, 'pids', 'server.pid')
 state_path File.join(tmp_dir, 'pids', 'puma.state')
-stdout_redirect File.join(Rails.root, 'log', 'puma.log')
 
 if env.production?
+  stdout_redirect File.join(Rails.root, 'log', 'puma.log')
   bind "unix://#{File.join(tmp_dir, 'sockets', 'puma.sock')}"
 else
   port ENV.fetch('PORT') { 3000 }
