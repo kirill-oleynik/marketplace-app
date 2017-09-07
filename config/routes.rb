@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     end
   end
 
+  put 'users/current/password', to: 'users#password'
+
   resource :sessions, only: [:create] do
     member do
       put 'refresh'

@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Users requests' do
+  let(:password) { '123456' }
+  let(:encoded_password) { password_hash(password) }
+  let(:user) { create(:user, password_hash: encoded_password) }
+
   describe '#create' do
     context 'when params valid' do
       let(:params) do
@@ -58,10 +62,6 @@ RSpec.describe 'Users requests' do
   end
 
   describe '#show' do
-    let(:password) { '123456' }
-    let(:encoded_password) { password_hash(password) }
-    let(:user) { create(:user, password_hash: encoded_password) }
-
     it 'returns serialized user data', :with_db_cleaner do
       authenticate_user(user.email, password) do |access_token|
         get current_users_path, headers: with_auth_header(access_token)
@@ -73,10 +73,6 @@ RSpec.describe 'Users requests' do
   end
 
   describe '#update' do
-    let(:password) { '123456' }
-    let(:encoded_password) { password_hash(password) }
-    let(:user) { create(:user, password_hash: encoded_password) }
-
     context 'when params valid' do
       let(:params) do
         {
@@ -120,7 +116,56 @@ RSpec.describe 'Users requests' do
     end
   end
 
+  describe '#password' do
+    let(:new_password) { 'new_password' }
+
+    let(:valid_params) do
+      {
+        current_password: password,
+        password: new_password,
+        password_confirmation: new_password
+      }
+    end
+
+    describe 'when params are valid' do
+      let(:params) { valid_params }
+
+      it 'updates user password', :with_db_cleaner do
+        authenticate_user user.email, password do |access_token|
+          put users_current_password_path,
+              params: params,
+              headers: with_auth_header(access_token)
+
+          user.reload
+
+          expect(response).to have_http_status(200)
+          expect(response.body).to match_response_schema('user')
+          expect(compare_password(new_password, user)).to be_truthy
+        end
+      end
+    end
+
+    describe 'when params are invalid' do
+      let(:params) { valid_params.except(:password) }
+
+      it 'returns errors', :with_db_cleaner do
+        authenticate_user user.email, password do |access_token|
+          put users_current_password_path,
+              params: params,
+              headers: with_auth_header(access_token)
+
+          expect(response).to have_http_status(422)
+          expect(response.body).to match_response_schema('errors/validation')
+        end
+      end
+    end
+  end
+
   def users_count
     User.count
+  end
+
+  def compare_password(secret, user)
+    BcryptAdapter.new.compare(secret: secret, secret_hash: user.password_hash)
   end
 end

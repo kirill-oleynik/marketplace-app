@@ -1,5 +1,5 @@
 class UsersController < ApiController
-  before_action :authenticate!, only: [:current, :update]
+  before_action :authenticate!, only: [:current, :update, :password]
 
   rescue_from Pundit::NotAuthorizedError, with: unauthorized_response
 
@@ -18,6 +18,11 @@ class UsersController < ApiController
     render(json: current_user, root: 'data', serializer: UserSerializer)
   end
 
+  def password
+    result = ChangePasswordInteraction.new.call(password_params)
+    respond_with(result, status: 200, serializer: UserSerializer)
+  end
+
   private
 
   def create_params
@@ -31,5 +36,11 @@ class UsersController < ApiController
       :id, :first_name, :last_name, :email, :password,
       :phone, :job_title, :organization
     )
+  end
+
+  def password_params
+    params
+      .permit(:current_password, :password, :password_confirmation)
+      .merge(user: current_user)
   end
 end

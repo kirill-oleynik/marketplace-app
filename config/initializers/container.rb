@@ -13,6 +13,7 @@ class Container
     register('refresh_session') { RefreshSessionScheme }
     register('change_extra_info') { ChangeExtraInfoScheme }
     register('update_user_scheme') { UpdateUserScheme }
+    register('change_password_scheme') { ChangePasswordScheme }
   end
 
   namespace 'adapters' do
