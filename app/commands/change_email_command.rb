@@ -2,6 +2,7 @@ class ChangeEmailCommand
   include Dry::Transaction
   include Inject[
     bcrypt: 'adapters.bcrypt',
+    repository: 'repositories.user'
   ]
 
   step :check_user_password
@@ -21,7 +22,7 @@ class ChangeEmailCommand
   end
 
   def update_email(params)
-    params[:user].update(email: params[:email])
+    params[:user] = repository.update!(params[:user].id, email: params[:email])
 
     Right(params[:user])
   end

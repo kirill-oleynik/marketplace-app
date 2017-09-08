@@ -5,7 +5,8 @@ RSpec.describe UpdateUserInteraction do
     UpdateUserInteraction.new(
       change_email: change_email,
       update_user_scheme: update_user_scheme,
-      persist_profile_command: persist_profile_command
+      persist_profile_command: persist_profile_command,
+      repository: repository
     ).call(params)
   end
 
@@ -21,7 +22,9 @@ RSpec.describe UpdateUserInteraction do
 
   let(:persist_profile_command) { double(call: 'profile') }
 
-  let(:user) { double('user', update: true, id: 1) }
+  let(:repository) { double('repository', update!: user) }
+
+  let(:user) { double('user', id: 1) }
 
   describe 'when params valid' do
     it 'returns right monad' do

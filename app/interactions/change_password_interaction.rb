@@ -2,7 +2,8 @@ class ChangePasswordInteraction
   include Dry::Transaction
   include Inject[
     change_password_scheme: 'schemes.change_password_scheme',
-    bcrypt: 'adapters.bcrypt'
+    bcrypt: 'adapters.bcrypt',
+    repository: 'repositories.user'
   ]
 
   step :validate
@@ -40,7 +41,10 @@ class ChangePasswordInteraction
   end
 
   def udpate(params)
-    params[:user].update(password_hash: params[:password_hash])
+    params[:user] = repository.update!(
+      params[:user].id,
+      password_hash: params[:password_hash]
+    )
 
     Right(params[:user])
   end

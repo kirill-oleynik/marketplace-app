@@ -4,7 +4,8 @@ RSpec.describe ChangePasswordInteraction do
   subject do
     described_class.new(
       change_password_scheme: change_password_scheme,
-      bcrypt: bcrypt
+      bcrypt: bcrypt,
+      repository: repository
     ).call(params)
   end
 
@@ -21,7 +22,11 @@ RSpec.describe ChangePasswordInteraction do
 
   let(:bcrypt) { double('bcrypt', compare: true, encode: 'encoded') }
 
-  let(:user) { double('user', update: true, password_hash: 'password_hash') }
+  let(:repository) { double('repository', update!: user) }
+
+  let(:user) do
+    double('user', password_hash: 'password_hash', id: 'id')
+  end
 
   describe 'when params invalid' do
     let(:change_password_scheme) do

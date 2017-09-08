@@ -3,7 +3,8 @@ class UpdateUserInteraction
   include Inject[
     change_email: 'commands.change_email',
     update_user_scheme: 'schemes.update_user_scheme',
-    persist_profile_command: 'commands.persist_profile_command'
+    persist_profile_command: 'commands.persist_profile_command',
+    repository: 'repositories.user'
   ]
 
   step :validate_user_params
@@ -35,7 +36,9 @@ class UpdateUserInteraction
 
   def update_user_info(params)
     user_params = params.slice(:first_name, :last_name)
-    params[:user].update(user_params) unless user_params.empty?
+    unless user_params.empty?
+      params[:user] = repository.update!(params[:user].id, user_params)
+    end
 
     Right(params)
   end

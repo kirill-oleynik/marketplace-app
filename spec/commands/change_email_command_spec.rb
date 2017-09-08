@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe ChangeEmailCommand do
   subject do
     ChangeEmailCommand.new(
-      bcrypt: bcrypt
+      bcrypt: bcrypt,
+      repository: repository
     )
   end
 
@@ -17,9 +18,11 @@ RSpec.describe ChangeEmailCommand do
 
   let(:email) { attributes_for(:user)[:email] }
 
+  let(:repository) { double('repository', update!: true, find: user) }
+
   let(:user) do
     user = double('user')
-    allow(user).to receive_messages([:password_hash, :update])
+    allow(user).to receive_messages(password_hash: 'password_hash', id: 'id')
     user
   end
 
@@ -27,7 +30,7 @@ RSpec.describe ChangeEmailCommand do
     let(:bcrypt) { double(compare: true) }
 
     it 'updates user email' do
-      expect(user).to receive(:update).with(email: email)
+      expect(repository).to receive(:update!).with('id', email: email)
       subject.call(params)
     end
 
@@ -42,7 +45,7 @@ RSpec.describe ChangeEmailCommand do
     let(:bcrypt) { double(compare: false) }
 
     it 'updates user email' do
-      expect(user).not_to receive(:update).with(email: email)
+      expect(repository).not_to receive(:update!).with(email: email)
       subject.call(params)
     end
 
