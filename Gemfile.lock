@@ -157,8 +157,6 @@ GEM
     powerpack (0.1.1)
     public_suffix (2.0.5)
     puma (3.9.1)
-    pundit (1.1.0)
-      activesupport (>= 3.0.0)
     rack (2.0.3)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -262,7 +260,6 @@ DEPENDENCIES
   listen
   pg
   puma
-  pundit
   rails
   redis
   rspec-rails

@@ -5,12 +5,11 @@ RSpec.describe UpdateUserInteraction do
     UpdateUserInteraction.new(
       change_email: change_email,
       update_user_scheme: update_user_scheme,
-      update_profile_command: update_profile_command,
-      user_repository: user_repository
+      update_profile_command: update_profile_command
     ).call(params)
   end
 
-  let(:params) { user_params.merge(profile_params) }
+  let(:params) { user_params.merge(profile_params).merge(user: user) }
 
   let(:user_params) { attributes_for(:user) }
 
@@ -22,29 +21,12 @@ RSpec.describe UpdateUserInteraction do
 
   let(:update_profile_command) { double(call: 'profile') }
 
-  let(:user_repository) { double(find: user) }
-
-  let(:user) { double('user', update: true) }
+  let(:user) { double('user', update: true, id: 1) }
 
   describe 'when params valid' do
-    context 'when user not exists' do
-      let(:user_repository) do
-        mock = double
-        expect(mock).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-        mock
-      end
-
-      it 'returns left monad with violations' do
-        expect(subject).to be_left
-        expect(subject.value[0]).to eq(:not_found)
-      end
-    end
-
-    context 'when user exists' do
-      it 'returns right monad' do
-        expect(subject).to be_right
-        expect(subject.value).to eq(user)
-      end
+    it 'returns right monad' do
+      expect(subject).to be_right
+      expect(subject.value).to eq(user)
     end
 
     context 'when given password does not match to user password' do

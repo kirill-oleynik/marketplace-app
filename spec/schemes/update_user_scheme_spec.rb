@@ -2,10 +2,11 @@ require 'rails_helper'
 
 RSpec.describe ChangeExtraInfoScheme do
   let(:subject) { UpdateUserScheme.call(params) }
+  let(:user) { attributes_for(:user) }
   let(:valid_params) do
     attributes_for(:user)
       .merge(attributes_for(:profile))
-      .merge(id: '1', password: 'password')
+      .merge(user: user, password: 'password')
   end
 
   describe 'when all params valid' do
@@ -16,9 +17,9 @@ RSpec.describe ChangeExtraInfoScheme do
     end
   end
 
-  describe 'id' do
+  describe 'user' do
     context 'when value is missing' do
-      let(:params) { valid_params.except(:id) }
+      let(:params) { valid_params.except(:user) }
 
       it 'is invalid' do
         expect(subject.success?).to be_falsey

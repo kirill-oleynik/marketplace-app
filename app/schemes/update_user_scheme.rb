@@ -1,5 +1,5 @@
 UpdateUserScheme = Dry::Validation.Schema do
-  required(:id).filled(:str?)
+  required(:user).filled
   optional(:first_name).filled(:str?)
   optional(:last_name).filled(:str?)
   optional(:email).filled(:str?, format?: URI::MailTo::EMAIL_REGEXP)

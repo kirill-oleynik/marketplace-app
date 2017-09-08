@@ -3,12 +3,10 @@ class UpdateUserInteraction
   include Inject[
     change_email: 'commands.change_email',
     update_user_scheme: 'schemes.update_user_scheme',
-    update_profile_command: 'commands.update_profile_command',
-    user_repository: 'repositories.user'
+    update_profile_command: 'commands.update_profile_command'
   ]
 
   step :validate_user_params
-  step :find_user
   step :update_user_email
   step :update_user_info
   step :update_profile
@@ -21,14 +19,6 @@ class UpdateUserInteraction
     else
       Left([:invalid, result.errors])
     end
-  end
-
-  def find_user(params)
-    user = user_repository.find(params[:id])
-
-    Right(params.merge(user: user))
-  rescue ActiveRecord::RecordNotFound
-    Left([:not_found, user: [I18n.t('errors.user_not_found')]])
   end
 
   def update_user_email(params)
@@ -51,7 +41,7 @@ class UpdateUserInteraction
   end
 
   def update_profile(params)
-    profile_params = params.merge(user_id: params[:id])
+    profile_params = params.merge(user_id: params[:user].id)
     update_profile_command.call(profile_params) unless profile_params.empty?
 
     Right(params[:user])
