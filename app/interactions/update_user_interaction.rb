@@ -3,13 +3,13 @@ class UpdateUserInteraction
   include Inject[
     change_email: 'commands.change_email',
     update_user_scheme: 'schemes.update_user_scheme',
-    update_profile_command: 'commands.update_profile_command'
+    persist_profile_command: 'commands.persist_profile_command'
   ]
 
   step :validate_user_params
   step :update_user_email
   step :update_user_info
-  step :update_profile
+  step :persist
 
   def validate_user_params(params)
     result = update_user_scheme.call(params)
@@ -40,9 +40,9 @@ class UpdateUserInteraction
     Right(params)
   end
 
-  def update_profile(params)
+  def persist(params)
     profile_params = params.merge(user_id: params[:user].id)
-    update_profile_command.call(profile_params) unless profile_params.empty?
+    persist_profile_command.call(profile_params) unless profile_params.empty?
 
     Right(params[:user])
   end

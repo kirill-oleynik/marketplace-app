@@ -5,7 +5,7 @@ RSpec.describe UpdateUserInteraction do
     UpdateUserInteraction.new(
       change_email: change_email,
       update_user_scheme: update_user_scheme,
-      update_profile_command: update_profile_command
+      persist_profile_command: persist_profile_command
     ).call(params)
   end
 
@@ -19,7 +19,7 @@ RSpec.describe UpdateUserInteraction do
 
   let(:update_user_scheme) { -> (_) { double(success?: true) } }
 
-  let(:update_profile_command) { double(call: 'profile') }
+  let(:persist_profile_command) { double(call: 'profile') }
 
   let(:user) { double('user', update: true, id: 1) }
 

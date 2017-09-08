@@ -8,7 +8,7 @@ class ChangePasswordInteraction
   step :validate
   step :check_password
   step :hash_password
-  step :udpate_user
+  step :udpate
 
   def validate(params)
     result = change_password_scheme.call(params)
@@ -39,7 +39,7 @@ class ChangePasswordInteraction
     Right(params.merge(password_hash: password_hash))
   end
 
-  def udpate_user(params)
+  def udpate(params)
     params[:user].update(password_hash: params[:password_hash])
 
     Right(params[:user])

@@ -1,4 +1,4 @@
-class UpdateProfileCommand
+class PersistProfileCommand
   include Dry::Transaction
   include Inject[
     profile_repository: 'repositories.profile'

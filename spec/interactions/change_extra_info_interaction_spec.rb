@@ -6,20 +6,20 @@ RSpec.describe ChangeExtraInfoInteraction do
   let(:params) { profile_params.merge(user_id: user_id) }
   let(:profile) { Profile.new params.merge(id: 1) }
 
-  let(:update_profile_command) { double }
+  let(:persist_profile_command) { double }
   let(:profile_repository) { double }
   let(:change_extra_info_scheme) { double }
 
   subject do
     ChangeExtraInfoInteraction.new(
-      update_profile_command: update_profile_command,
+      persist_profile_command: persist_profile_command,
       change_extra_info_scheme: change_extra_info_scheme
     )
   end
 
   describe 'transaction was successful' do
     let(:change_extra_info_scheme) { -> (_) { double(success?: true) } }
-    let(:update_profile_command) { -> (_) { double(value: profile) } }
+    let(:persist_profile_command) { -> (_) { double(value: profile) } }
 
     it 'returns right monad with profile' do
       result = subject.call(params)

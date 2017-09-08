@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UpdateProfileCommand do
+RSpec.describe PersistProfileCommand do
   let(:user_id) { 1 }
   let(:profile_params) { attributes_for(:profile) }
   let(:params) { profile_params.merge(user_id: user_id) }
@@ -8,9 +8,7 @@ RSpec.describe UpdateProfileCommand do
 
   let(:profile_repository) { double }
 
-  subject do
-    UpdateProfileCommand.new(profile_repository: profile_repository)
-  end
+  subject { described_class.new(profile_repository: profile_repository) }
 
   context 'when profile was created' do
     let(:profile_repository) do
