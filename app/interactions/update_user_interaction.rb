@@ -44,8 +44,12 @@ class UpdateUserInteraction
   end
 
   def persist(params)
-    profile_params = params.merge(user_id: params[:user].id)
-    persist_profile_command.call(profile_params) unless profile_params.empty?
+    profile_params = params.slice(:phone, :job_title, :organization)
+    unless profile_params.empty?
+      persist_profile_command.call(
+        profile_params.merge(user_id: params[:user].id)
+      )
+    end
 
     Right(params[:user])
   end
