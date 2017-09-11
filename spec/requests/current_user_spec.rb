@@ -21,7 +21,10 @@ RSpec.describe 'Current User requests' do
       let(:params) do
         {
           first_name: 'FirstName',
-          phone: '123'
+          last_name: 'LastName',
+          phone: '123',
+          job_title: 'job_title',
+          organization: 'organization'
         }
       end
 
@@ -33,8 +36,19 @@ RSpec.describe 'Current User requests' do
 
           expect(response).to have_http_status(200)
           expect(response.body).to match_response_schema('user')
-          expect(Profile.find_by_user_id(user.id).phone).to eq(params[:phone])
+
           expect(User.find(user.id).first_name).to eq(params[:first_name])
+          expect(User.find(user.id).last_name).to eq(params[:last_name])
+
+          expect(
+            Profile.find_by_user_id(user.id).phone
+          ).to eq(params[:phone])
+          expect(
+            Profile.find_by_user_id(user.id).organization
+          ).to eq(params[:organization])
+          expect(
+            Profile.find_by_user_id(user.id).job_title
+          ).to eq(params[:job_title])
         end
       end
     end
