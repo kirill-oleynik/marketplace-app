@@ -8,7 +8,8 @@ class CreateSessionCommand
   include Inject[
     jwt: 'adapters.jwt',
     bcrypt: 'adapters.bcrypt',
-    redis: 'adapters.redis'
+    redis: 'adapters.redis',
+    session_storage: 'repositories.session_storage'
   ]
 
   step :generate_access_token
@@ -67,8 +68,7 @@ class CreateSessionCommand
       refresh_token_hash: data[:refresh_token_hash]
     }
 
-    redis.hmset(client_id, data_to_store)
-    redis.expire(client_id, lifetime)
+    session_storage.persist(client_id, data_to_store, lifetime)
 
     Right(
       Session.new(data)

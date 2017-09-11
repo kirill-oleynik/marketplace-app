@@ -14,7 +14,8 @@ RSpec.describe RefreshSessionInteraction do
   let(:redis) { double(hgetall: session_data) }
   let(:refresh_session_scheme) { -> (*) { double(success?: true) } }
   let(:create_session) { -> (*) { double(value: session) } }
-  let(:repository) { double(find: user) }
+  let(:user_repository) { double(find: user) }
+  let(:session_repository) { double(storage_key: 'sess:id') }
 
   let(:params) do
     {
@@ -27,9 +28,10 @@ RSpec.describe RefreshSessionInteraction do
     RefreshSessionInteraction.new(
       redis: redis,
       bcrypt: bcrypt,
-      repository: repository,
+      repository: user_repository,
       create_session: create_session,
-      refresh_session_scheme: refresh_session_scheme
+      refresh_session_scheme: refresh_session_scheme,
+      session: session_repository
     )
   end
 
@@ -79,7 +81,7 @@ RSpec.describe RefreshSessionInteraction do
   end
 
   context 'when user not found' do
-    let(:repository) do
+    let(:user_repository) do
       mock = double
       expect(mock).to receive(:find).with(user.id)
                                     .and_raise(ActiveRecord::RecordNotFound)

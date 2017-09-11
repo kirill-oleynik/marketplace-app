@@ -5,7 +5,8 @@ class RefreshSessionInteraction
     bcrypt: 'adapters.bcrypt',
     repository: 'repositories.user',
     create_session: 'commands.create_session',
-    refresh_session_scheme: 'schemes.refresh_session'
+    refresh_session_scheme: 'schemes.refresh_session',
+    session_storage: 'repositories.session_storage'
   ]
 
   step :validate
@@ -16,7 +17,6 @@ class RefreshSessionInteraction
 
   def validate(params)
     result = refresh_session_scheme.call(params)
-
     if result.success?
       Right(params)
     else
@@ -25,7 +25,8 @@ class RefreshSessionInteraction
   end
 
   def find_session_data(params)
-    session_data = redis.hgetall(params[:client_id])
+    session_key = session_storage.session_key(params[:client_id])
+    session_data = redis.hgetall(session_key)
 
     if session_data.present?
       Right(params.merge(

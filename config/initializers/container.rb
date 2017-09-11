@@ -5,6 +5,7 @@ class Container
     register('user') { User }
     register('profile') { Profile }
     register('category') { Category }
+    register('session_storage') { SessionStorage.new(RedisAdapter.new) }
   end
 
   namespace 'schemes' do

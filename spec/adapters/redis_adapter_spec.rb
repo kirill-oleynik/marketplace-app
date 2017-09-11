@@ -54,4 +54,11 @@ RSpec.describe RedisAdapter, :with_redis_cleaner do
       )
     end
   end
+
+  describe '#sadd' do
+    it 'stores given set' do
+      subject.sadd('key', 'item1', 'item2')
+      expect(redis_connection.smembers('key')).to eq(%w[item1 item2])
+    end
+  end
 end

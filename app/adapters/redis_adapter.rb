@@ -23,6 +23,10 @@ class RedisAdapter
     redis { |connection| connection.hgetall(key) }
   end
 
+  def sadd(key, *data)
+    redis { |connection| connection.sadd(key, data) }
+  end
+
   private
 
   def redis
