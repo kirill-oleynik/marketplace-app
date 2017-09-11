@@ -8,7 +8,7 @@ RSpec.describe 'Sessions requests' do
 
     let!(:password) { SecureRandom.hex(5) }
 
-    context 'when params are valid' do
+    context 'when params are valid', :with_db_cleaner do
       let!(:user) { create(:user, password_hash: password_hash(password)) }
 
       let(:params) do
@@ -18,7 +18,7 @@ RSpec.describe 'Sessions requests' do
         }
       end
 
-      it 'returns success response with credentials', :with_db_cleaner do
+      it 'returns success response with credentials' do
         expect(response).to have_http_status(201)
         expect(response.body).to match_response_schema('session')
       end
@@ -84,7 +84,7 @@ RSpec.describe 'Sessions requests' do
       end
     end
 
-    context 'when credentials are valid' do
+    context 'when credentials are valid', :with_db_cleaner do
       let!(:user) { create(:user) }
 
       let(:redis) { RedisAdapter.new }

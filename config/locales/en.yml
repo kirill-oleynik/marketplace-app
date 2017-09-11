@@ -1,14 +1,13 @@
 en:
   errors:
-    titles:
-      unprocessable_entity: UnprocessableEntity
-      unauthorized: Unauthorized
-      not_found: Not Found
-    messages:
-      unprocessable_entity: Object is not valid and cannot be processed
-      unauthorized: Access is denied due to invalid credentials
-      not_found: Requested entity does not exist
     not_unique: already taken
     authentication: Invalid credentials
-    session_expired: Session expired
-    user_not_found: User not found
+    titles:
+      unauthorized: Unauthorized
+      not_found: Record Not Found
+      unprocessable_entity: Unprocessable Entity
+    messages:
+      not_found: Can't find {{ entity }}, with id {{ id }}
+      unauthorized: Access is denied due to invalid credentials
+      unprocessable_entity: Object is not valid and cannot be processed
+
