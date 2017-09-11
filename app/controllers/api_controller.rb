@@ -1,4 +1,5 @@
 class ApiController < ActionController::API
+  include Dry::Monads::Either::Mixin
   include Responder
 
   serialization_scope :view_context

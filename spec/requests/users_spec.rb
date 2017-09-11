@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Users requests' do
+  let(:password) { '123456' }
+  let(:encoded_password) { password_hash(password) }
+  let(:user) { create(:user, password_hash: encoded_password) }
+
   describe '#create' do
     context 'when params valid' do
       let(:params) do
@@ -53,21 +57,6 @@ RSpec.describe 'Users requests' do
         expect(response).to have_http_status(422)
         expect(response.body).to match_response_schema('errors/validation')
         expect(users_count).to eq(1)
-      end
-    end
-  end
-
-  describe '#show' do
-    let(:password) { '123456' }
-    let(:encoded_password) { password_hash(password) }
-    let(:user) { create(:user, password_hash: encoded_password) }
-
-    it 'returns serialized user data', :with_db_cleaner do
-      authenticate_user(user.email, password) do |access_token|
-        get current_users_path, headers: with_auth_header(access_token)
-
-        expect(response).to have_http_status(200)
-        expect(response.body).to match_response_schema('user')
       end
     end
   end

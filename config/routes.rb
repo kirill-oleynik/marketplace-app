@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
   root 'home#index'
 
-  resources :users, only: [:create] do
-    collection do
-      get 'current'
+  resources :users, only: [:create]
+
+  resource :current_user, only: [:show, :update] do
+    member do
+      put :password
     end
   end
 

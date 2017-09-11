@@ -30,6 +30,12 @@
         },
         "organization": {
           "type": "string|null"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
         }
       }
     }

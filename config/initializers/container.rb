@@ -12,6 +12,8 @@ class Container
     register('sign_up') { SignUpScheme }
     register('refresh_session') { RefreshSessionScheme }
     register('change_extra_info') { ChangeExtraInfoScheme }
+    register('update_user_scheme') { UpdateUserScheme }
+    register('change_password_scheme') { ChangePasswordScheme }
   end
 
   namespace 'adapters' do
@@ -24,5 +26,7 @@ class Container
     register('create_session') { CreateSessionCommand.new }
     register('validate_refresh_token') { ValidateRefreshTokenCommand.new }
     register('authenticate') { AuthenticateCommand.new }
+    register('persist_profile_command') { PersistProfileCommand.new }
+    register('change_email') { ChangeEmailCommand.new }
   end
 end

@@ -1,12 +1,11 @@
 class ChangeExtraInfoInteraction
   include Dry::Transaction
   include Inject[
-    profile_repository: 'repositories.profile',
+    persist_profile_command: 'commands.persist_profile_command',
     change_extra_info_scheme: 'schemes.change_extra_info'
   ]
 
   step :validate
-  step :find_profile
   step :persist
 
   def validate(params)
@@ -19,27 +18,8 @@ class ChangeExtraInfoInteraction
     end
   end
 
-  def find_profile(params)
-    profile = profile_repository.find_by_user_id(params[:user_id])
-
-    Right(
-      params.merge(profile_id: profile.try(:id))
-    )
-  end
-
   def persist(params)
-    profile_id = params[:profile_id]
-
-    profile =
-      if profile_id
-        profile_repository.update!(
-          profile_id, params.slice(:phone, :job_title, :organization)
-        )
-      else
-        profile_repository.create!(
-          params.slice(:user_id, :phone, :job_title, :organization)
-        )
-      end
+    profile = persist_profile_command.call(params).value
 
     Right(profile)
   end

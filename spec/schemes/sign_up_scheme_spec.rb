@@ -21,6 +21,10 @@ RSpec.describe 'SignUpScheme' do
     include_examples 'password validation'
   end
 
+  describe 'password_confirmation' do
+    include_examples 'password_confirmation validation'
+  end
+
   describe 'email validation' do
     include_examples 'email validation'
   end

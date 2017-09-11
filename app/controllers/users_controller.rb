@@ -1,13 +1,7 @@
 class UsersController < ApiController
-  before_action :authenticate!, only: [:current]
-
   def create
     result = SignUpInteraction.new.call(create_params)
     respond_with(result, status: 201, serializer: UserSerializer)
-  end
-
-  def current
-    render(json: current_user, root: 'data', serializer: UserSerializer)
   end
 
   private
