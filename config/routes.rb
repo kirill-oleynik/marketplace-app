@@ -17,5 +17,5 @@ Rails.application.routes.draw do
 
   resource :profile, only: [:create]
 
-  resources :categories, only: [:index]
+  resources :categories, only: [:show, :index]
 end

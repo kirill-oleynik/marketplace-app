@@ -1,10 +1,11 @@
-# rubocop:disable Metrics/AbcSize
 require_relative 'interaction_matcher'
 
+require_relative 'errors/not_found'
 require_relative 'errors/unauthorized'
 require_relative 'errors/unprocessable_entity'
 
 module Responder
+  # rubocop:disable Metrics/AbcSize
   def respond_with(monad, status: 200, **rest)
     InteractionMatcher.call(monad) do |result|
       result.success do |value|
