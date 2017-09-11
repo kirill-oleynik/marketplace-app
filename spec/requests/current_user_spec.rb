@@ -88,11 +88,15 @@ RSpec.describe 'Current User requests' do
     describe 'when params are valid' do
       let(:params) { valid_params }
 
+      before(:each) do
+        authenticate_user(user.email, password)
+      end
+
       it 'updates user password', :with_db_cleaner do
-        authenticate_user user.email, password do |access_token|
+        authenticate_user user.email, password do |access_token, client_id|
           put password_current_user_path,
               params: params,
-              headers: with_auth_header(access_token)
+              headers: with_auth_header(access_token, 'ClientId' => client_id)
 
           user.reload
 

@@ -7,6 +7,10 @@ class RedisAdapter
     redis { |connection| connection.get(key) }
   end
 
+  def del(key)
+    redis { |connection| connection.del(key) }
+  end
+
   def expire(key, exp)
     redis { |connection| connection.expire(key, exp) }
   end
@@ -25,6 +29,14 @@ class RedisAdapter
 
   def sadd(key, *data)
     redis { |connection| connection.sadd(key, data) }
+  end
+
+  def srem(key, members)
+    redis { |connection| connection.srem(key, members) }
+  end
+
+  def smembers(key)
+    redis { |connection| connection.smembers(key) }
   end
 
   private

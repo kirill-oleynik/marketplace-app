@@ -5,7 +5,8 @@ RSpec.describe ChangePasswordInteraction do
     described_class.new(
       change_password_scheme: change_password_scheme,
       bcrypt: bcrypt,
-      repository: repository
+      repository: repository,
+      session_storage: session_storage
     ).call(params)
   end
 
@@ -14,7 +15,8 @@ RSpec.describe ChangePasswordInteraction do
       user: user,
       current_password: 'current_password',
       password: 'new_password',
-      password_confirmation: 'new_password'
+      password_confirmation: 'new_password',
+      client_id: 'client_id'
     }
   end
 
@@ -27,6 +29,8 @@ RSpec.describe ChangePasswordInteraction do
   let(:user) do
     double('user', password_hash: 'password_hash', id: 'id')
   end
+
+  let(:session_storage) { double(delete: true) }
 
   describe 'when params invalid' do
     let(:change_password_scheme) do

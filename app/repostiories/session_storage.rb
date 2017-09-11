@@ -9,6 +9,13 @@ class SessionStorage
     storage_client.expire(session_key(id), lifetime)
   end
 
+  def delete(user_id, *except_ids)
+    keys_to_delete = user_sessions_keys(user_id) - session_keys(except_ids)
+
+    keys_to_delete.map { |key| storage_client.del(key) }
+    storage_client.srem(user_key(user_id), keys_to_delete)
+  end
+
   def session_key(id)
     "sess:#{id}"
   end
@@ -20,4 +27,12 @@ class SessionStorage
   private
 
   attr_reader :storage_client
+
+  def user_sessions_keys(id)
+    storage_client.smembers user_key(id)
+  end
+
+  def session_keys(*ids)
+    ids.flatten.map { |id| session_key(id) }
+  end
 end

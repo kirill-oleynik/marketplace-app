@@ -7,7 +7,8 @@ RSpec.describe ChangePasswordScheme do
       user: attributes_for(:user),
       current_password: 'password',
       password: 'new_password',
-      password_confirmation: 'new_password'
+      password_confirmation: 'new_password',
+      client_id: 'client_id'
     )
   end
 
@@ -45,5 +46,15 @@ RSpec.describe ChangePasswordScheme do
 
   describe 'password_confirmation' do
     include_examples 'password_confirmation validation'
+  end
+
+  describe 'client_id' do
+    context 'when value is not given' do
+      let(:params) { valid_params.except(:client_id) }
+
+      it 'is invalid' do
+        expect(subject.success?).to be_falsey
+      end
+    end
   end
 end
