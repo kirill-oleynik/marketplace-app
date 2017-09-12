@@ -4,12 +4,14 @@ class ChangePasswordInteraction
     change_password_scheme: 'schemes.change_password_scheme',
     bcrypt: 'adapters.bcrypt',
     repository: 'repositories.user',
-    session_storage: 'repositories.session_storage'
+    session_storage: 'repositories.session_storage',
+    jwt: 'adapters.jwt'
   ]
 
   step :validate
   step :check_password
   step :hash_password
+  step :get_client_id
   step :udpate
   step :delete_other_sessions
 
@@ -40,6 +42,17 @@ class ChangePasswordInteraction
     password_hash = bcrypt.encode(params[:password])
 
     Right(params.merge(password_hash: password_hash))
+  end
+
+  def get_client_id(params)
+    payload, _headers = jwt.decode(params[:token])
+    client_id = payload['client_id']
+
+    Right(
+      params.merge(client_id: client_id)
+    )
+  rescue JWT::DecodeError, JWT::ExpiredSignature
+    Left([:unauthorized])
   end
 
   def udpate(params)

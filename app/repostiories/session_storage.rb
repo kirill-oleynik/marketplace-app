@@ -16,6 +16,11 @@ class SessionStorage
     storage_client.srem(user_key(user_id), keys_to_delete)
   end
 
+  def exists?(user_id, client_id)
+    user_sessions_keys = storage_client.smembers(user_key(user_id))
+    user_sessions_keys.include? session_key(client_id)
+  end
+
   def session_key(id)
     "sess:#{id}"
   end

@@ -6,7 +6,8 @@ RSpec.describe ChangePasswordInteraction do
       change_password_scheme: change_password_scheme,
       bcrypt: bcrypt,
       repository: repository,
-      session_storage: session_storage
+      session_storage: session_storage,
+      jwt: jwt
     ).call(params)
   end
 
@@ -16,7 +17,7 @@ RSpec.describe ChangePasswordInteraction do
       current_password: 'current_password',
       password: 'new_password',
       password_confirmation: 'new_password',
-      client_id: 'client_id'
+      token: 'jwt_token'
     }
   end
 
@@ -31,6 +32,14 @@ RSpec.describe ChangePasswordInteraction do
   end
 
   let(:session_storage) { double(delete: true) }
+
+  let(:jwt) do
+    jwt = double('jwt')
+    allow(jwt).to receive(:decode).with('jwt_token').and_return(decoded_token)
+    jwt
+  end
+
+  let(:decoded_token) { { payload: { client_id: 'client_id' } } }
 
   describe 'when params invalid' do
     let(:change_password_scheme) do

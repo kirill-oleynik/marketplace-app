@@ -70,4 +70,32 @@ RSpec.describe SessionStorage do
       subject.delete(user_id, except_ids)
     end
   end
+
+  describe '#exists?' do
+    let(:user_id) { '111' }
+    let(:client_id) { '222' }
+
+    before(:each) do
+      allow(storage_client)
+        .to receive(:smembers)
+        .with('user_sess:111')
+        .and_return(session_keys)
+    end
+
+    context 'when session exists for given user' do
+      let(:session_keys) { %w[sess:111 sess:222] }
+
+      it 'returns true' do
+        expect(subject.exists?(user_id, client_id)).to be_truthy
+      end
+    end
+
+    context 'when session doesn not exist for given user' do
+      let(:session_keys) { %w[sess:111] }
+
+      it 'returns false' do
+        expect(subject.exists?(user_id, client_id)).to be_falsey
+      end
+    end
+  end
 end

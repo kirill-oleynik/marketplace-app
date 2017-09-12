@@ -8,7 +8,7 @@ RSpec.describe ChangePasswordScheme do
       current_password: 'password',
       password: 'new_password',
       password_confirmation: 'new_password',
-      client_id: 'client_id'
+      token: 'jwt_token'
     )
   end
 
@@ -48,9 +48,9 @@ RSpec.describe ChangePasswordScheme do
     include_examples 'password_confirmation validation'
   end
 
-  describe 'client_id' do
+  describe 'token' do
     context 'when value is not given' do
-      let(:params) { valid_params.except(:client_id) }
+      let(:params) { valid_params.except(:token) }
 
       it 'is invalid' do
         expect(subject.success?).to be_falsey
