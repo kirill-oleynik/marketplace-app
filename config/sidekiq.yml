@@ -1,0 +1,15 @@
+<%
+  begin
+    require 'dotenv'
+
+    Dotenv.load(".env.#{ENV.fetch('RAILS_ENV') { 'development' }}")
+  rescue LoadError
+  end
+%>
+
+concurrency: <%= ENV['SIDEKIQ_THREADS_COUNT'] %>
+pidfile: <%= File.join('tmp', 'pids', 'sidekiq.pid') %>
+queues:
+  - [low, 1]
+  - [default, 2]
+  - [critical, 3]
