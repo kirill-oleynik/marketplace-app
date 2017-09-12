@@ -70,6 +70,17 @@ RSpec.describe RedisAdapter, :with_redis_cleaner do
       subject.del('key')
       expect(redis_connection.get('key')).to eq(nil)
     end
+
+    it 'deletes given keys' do
+      redis_connection.set('key1', 'value1')
+      redis_connection.set('key2', 'value2')
+
+      expect(redis_connection.get('key1')).to eq('value1')
+      expect(redis_connection.get('key2')).to eq('value2')
+      subject.del('key1', 'key2')
+      expect(redis_connection.get('key1')).to eq(nil)
+      expect(redis_connection.get('key2')).to eq(nil)
+    end
   end
 
   describe '#srem' do

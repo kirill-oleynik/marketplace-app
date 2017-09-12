@@ -7,7 +7,7 @@ class RedisAdapter
     redis { |connection| connection.get(key) }
   end
 
-  def del(key)
+  def del(*key)
     redis { |connection| connection.del(key) }
   end
 
