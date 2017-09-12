@@ -11,11 +11,10 @@ RSpec.describe RefreshSessionInteraction do
   end
 
   let(:bcrypt) { double(compare: true) }
-  let(:redis) { double(hgetall: session_data) }
   let(:refresh_session_scheme) { -> (*) { double(success?: true) } }
   let(:create_session) { -> (*) { double(value: session) } }
   let(:user_repository) { double(find: user) }
-  let(:session_repository) { double(storage_key: 'sess:id') }
+  let(:session_storage) { double(find: session_data) }
 
   let(:params) do
     {
@@ -26,12 +25,12 @@ RSpec.describe RefreshSessionInteraction do
 
   subject(:result) do
     RefreshSessionInteraction.new(
-      redis: redis,
       bcrypt: bcrypt,
       repository: user_repository,
       create_session: create_session,
       refresh_session_scheme: refresh_session_scheme,
-      session: session_repository
+      session: session,
+      session_storage: session_storage
     )
   end
 
@@ -59,7 +58,7 @@ RSpec.describe RefreshSessionInteraction do
   end
 
   context 'when session data not found' do
-    let(:redis) { double(hgetall: nil) }
+    let(:session_storage) { double(find: nil) }
 
     it 'is returns left monad with unauthorized error tuple' do
       result = subject.call(params)

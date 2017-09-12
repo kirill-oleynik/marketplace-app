@@ -1,7 +1,6 @@
 class RefreshSessionInteraction
   include Dry::Transaction
   include Inject[
-    redis: 'adapters.redis',
     bcrypt: 'adapters.bcrypt',
     repository: 'repositories.user',
     create_session: 'commands.create_session',
@@ -17,6 +16,7 @@ class RefreshSessionInteraction
 
   def validate(params)
     result = refresh_session_scheme.call(params)
+
     if result.success?
       Right(params)
     else
@@ -25,8 +25,7 @@ class RefreshSessionInteraction
   end
 
   def find_session_data(params)
-    session_key = session_storage.session_key(params[:client_id])
-    session_data = redis.hgetall(session_key)
+    session_data = session_storage.find(params[:client_id])
 
     if session_data.present?
       Right(params.merge(
