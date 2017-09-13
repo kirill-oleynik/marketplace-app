@@ -10,10 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170913140017) do
+ActiveRecord::Schema.define(version: 20170913123401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "application_categories", force: :cascade do |t|
+    t.bigint "application_id"
+    t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_id", "category_id"], name: "index_application_categories_on_application_id_and_category_id", unique: true
+    t.index ["application_id"], name: "index_application_categories_on_application_id"
+    t.index ["category_id"], name: "index_application_categories_on_category_id"
+  end
+
+  create_table "applications", force: :cascade do |t|
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.string "description", null: false
+    t.string "website", null: false
+    t.string "email", null: false
+    t.string "address"
+    t.string "phone"
+    t.date "founded"
+    t.bigint "attachment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attachment_id"], name: "index_applications_on_attachment_id", unique: true
+    t.index ["slug"], name: "index_applications_on_slug", unique: true
+  end
 
   create_table "attachments", force: :cascade do |t|
     t.string "filename", null: false
@@ -49,5 +75,6 @@ ActiveRecord::Schema.define(version: 20170913140017) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "applications", "attachments", on_delete: :cascade
   add_foreign_key "profiles", "users", on_delete: :cascade
 end
