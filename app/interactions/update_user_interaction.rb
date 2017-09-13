@@ -10,7 +10,7 @@ class UpdateUserInteraction
   step :validate_user_params
   step :update_user_email
   step :update_user_info
-  step :persist
+  step :update_profile
 
   def validate_user_params(params)
     result = update_user_scheme.call(params)
@@ -28,7 +28,7 @@ class UpdateUserInteraction
     result = change_email.call(params.slice(:email, :password, :user))
 
     if result.success?
-      Right(params)
+      Right(params.merge(user: result.value))
     else
       Left(result.value)
     end
@@ -43,7 +43,7 @@ class UpdateUserInteraction
     Right(params)
   end
 
-  def persist(params)
+  def update_profile(params)
     profile_params = params.slice(:phone, :job_title, :organization)
     unless profile_params.empty?
       persist_profile_command.call(

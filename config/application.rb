@@ -16,9 +16,12 @@ Bundler.require(*Rails.groups)
 
 module Api
   class Application < Rails::Application
-    config.api_only = true
     config.load_defaults 5.1
-    config.secret_key_base = ENV['SECRET_KEY_BASE']
+
     config.autoload_paths << Rails.root.join('lib')
+
+    config.api_only = true
+    config.active_job.queue_adapter = :sidekiq
+    config.secret_key_base = ENV['SECRET_KEY_BASE']
   end
 end

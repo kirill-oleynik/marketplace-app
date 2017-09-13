@@ -1,9 +1,9 @@
-require_relative 'environment'
+current_dir = File.dirname(__FILE__)
+root_dir = File.absolute_path(File.join(current_dir, '..'))
+tmp_dir = File.join(root_dir, 'tmp')
 
-tmp_dir = File.join(Rails.root, 'tmp')
-
-env = ActiveSupport::StringInquirer.new(ENV.fetch('RAILS_ENV') { 'development' })
-environment env.to_s
+env = ENV.fetch('RAILS_ENV') { 'development' }
+environment env
 
 threads_count = ENV.fetch('RAILS_THREADS_COUNT') { 5 }
 threads threads_count, threads_count
@@ -14,11 +14,11 @@ workers workers_count
 pidfile File.join(tmp_dir, 'pids', 'server.pid')
 state_path File.join(tmp_dir, 'pids', 'puma.state')
 
-if env.production?
-  stdout_redirect File.join(Rails.root, 'log', 'puma.log')
+if env == 'production'
+  stdout_redirect File.join(root_dir, 'log', 'puma.log')
   bind "unix://#{File.join(tmp_dir, 'sockets', 'puma.sock')}"
 else
-  port ENV.fetch('PORT') { 3000 }
+  port ENV['PORT']
 end
 
 preload_app!
