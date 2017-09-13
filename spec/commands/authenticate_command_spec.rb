@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe AuthenticateCommand do
   let(:user_session) do
     {
-      'user_id' => '1'
+      'user_id' => '1',
+      'client_id' => '2'
     }
   end
 
@@ -27,19 +28,33 @@ RSpec.describe AuthenticateCommand do
     repository
   end
 
+  let(:session_repository) do
+    session_repository = double('session_repository')
+    allow(session_repository)
+      .to receive(:exists?)
+      .with(user_id: user.id.to_s, session_id: '2')
+      .and_return(session_existance)
+
+    session_repository
+  end
+
+  let(:session_existance) { true }
+
   subject do
     AuthenticateCommand.new(
       jwt: jwt_adapter,
-      repository: user_repository
+      repository: user_repository,
+      session_repository: session_repository
     )
   end
 
   context 'when token valid and user exists' do
-    it 'returns right monad with user' do
+    it 'returns right monad with user & client_id' do
       result = subject.call('jwt_token')
 
       expect(result).to be_right
-      expect(result.value).to eq(user)
+      expect(result.value[0]).to eq(user)
+      expect(result.value[1]).to eq(user_session['client_id'])
     end
   end
 
@@ -94,6 +109,17 @@ RSpec.describe AuthenticateCommand do
 
       repo
     end
+
+    it 'returns left monad with unauthorized error tuple' do
+      result = subject.call('jwt_token')
+
+      expect(result).to be_left
+      expect(result.value.first).to eq(:unauthorized)
+    end
+  end
+
+  context 'when session was expired serverside' do
+    let(:session_existance) { false }
 
     it 'returns left monad with unauthorized error tuple' do
       result = subject.call('jwt_token')

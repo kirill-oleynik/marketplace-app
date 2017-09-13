@@ -8,7 +8,8 @@ RSpec.describe 'Current User requests' do
   describe '#show' do
     it 'returns serialized user data', :with_db_cleaner do
       authenticate_user(user.email, password) do |access_token|
-        get current_user_path, headers: with_auth_header(access_token)
+        get current_user_path,
+            headers: with_auth_header(access_token)
 
         expect(response).to have_http_status(200)
         expect(response.body).to match_response_schema('user')
@@ -87,6 +88,10 @@ RSpec.describe 'Current User requests' do
 
     describe 'when params are valid' do
       let(:params) { valid_params }
+
+      before(:each) do
+        authenticate_user(user.email, password)
+      end
 
       it 'updates user password', :with_db_cleaner do
         authenticate_user user.email, password do |access_token|

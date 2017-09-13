@@ -8,24 +8,14 @@ class CreateSessionCommand
   include Inject[
     jwt: 'adapters.jwt',
     bcrypt: 'adapters.bcrypt',
-    redis: 'adapters.redis'
+    redis: 'adapters.redis',
+    session_repository: 'repositories.session_repository'
   ]
 
-  step :generate_access_token
   step :generate_refresh_token
   step :generate_client_id
+  step :generate_access_token
   step :persist
-
-  def generate_access_token(params)
-    access_token = jwt.encode(
-      user_id: params[:user_id],
-      exp: Time.now.to_i + ACCESS_TOKEN_LIFETIME
-    )
-
-    Right(params.merge(
-      access_token: access_token
-    ))
-  end
 
   def generate_refresh_token(data)
     refresh_token = SecureRandom.urlsafe_base64
@@ -50,6 +40,18 @@ class CreateSessionCommand
     ))
   end
 
+  def generate_access_token(data)
+    access_token = jwt.encode(
+      client_id: data[:client_id],
+      user_id: data[:user_id],
+      exp: Time.now.to_i + ACCESS_TOKEN_LIFETIME
+    )
+
+    Right(data.merge(
+      access_token: access_token
+    ))
+  end
+
   def persist(data)
     client_id = data[:client_id]
     remember_me = data.fetch(:remember_me, false)
@@ -67,8 +69,11 @@ class CreateSessionCommand
       refresh_token_hash: data[:refresh_token_hash]
     }
 
-    redis.hmset(client_id, data_to_store)
-    redis.expire(client_id, lifetime)
+    session_repository.persist(
+      session_id: client_id,
+      data: data_to_store,
+      lifetime: lifetime
+    )
 
     Right(
       Session.new(data)

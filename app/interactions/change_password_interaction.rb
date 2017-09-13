@@ -3,13 +3,16 @@ class ChangePasswordInteraction
   include Inject[
     change_password_scheme: 'schemes.change_password_scheme',
     bcrypt: 'adapters.bcrypt',
-    repository: 'repositories.user'
+    repository: 'repositories.user',
+    session_repository: 'repositories.session_repository',
+    jwt: 'adapters.jwt'
   ]
 
   step :validate
   step :check_password
   step :hash_password
   step :udpate
+  step :delete_other_sessions
 
   def validate(params)
     result = change_password_scheme.call(params)
@@ -44,6 +47,15 @@ class ChangePasswordInteraction
     params[:user] = repository.update!(
       params[:user].id,
       password_hash: params[:password_hash]
+    )
+
+    Right(params)
+  end
+
+  def delete_other_sessions(params)
+    session_repository.delete_sessions(
+      user_id: params[:user].id,
+      exclude_sessions_ids: params[:client_id]
     )
 
     Right(params[:user])

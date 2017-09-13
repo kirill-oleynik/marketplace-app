@@ -1,18 +1,43 @@
 class AuthenticateCommand
-  include Dry::Monads::Either::Mixin
+  include Dry::Transaction
   include Inject[
     jwt: 'adapters.jwt',
+    session_repository: 'repositories.session_repository',
     repository: 'repositories.user'
   ]
 
-  def call(token)
+  step :check_token
+  step :check_session
+  step :find_user
+
+  def check_token(token)
     return Left([:unauthorized]) unless token.present?
 
     payload, _headers = jwt.decode(token)
-    user = repository.find(payload['user_id'])
 
-    Right(user)
-  rescue JWT::DecodeError, JWT::ExpiredSignature, ActiveRecord::RecordNotFound
+    Right(payload)
+  rescue JWT::DecodeError, JWT::ExpiredSignature
+    Left([:unauthorized])
+  end
+
+  def check_session(data)
+    session_exists = session_repository.exists?(
+      user_id: data['user_id'],
+      session_id: data['client_id']
+    )
+
+    if session_exists
+      Right(data)
+    else
+      Left([:unauthorized])
+    end
+  end
+
+  def find_user(data)
+    user = repository.find(data['user_id'])
+
+    Right([user, data['client_id']])
+  rescue ActiveRecord::RecordNotFound
     Left([:unauthorized])
   end
 end

@@ -9,7 +9,7 @@ module Support
 
         auth_result = JSON.parse(response.body)
 
-        yield auth_result['data']['access_token']
+        yield auth_result['data']['access_token'] if block_given?
       end
 
       def password_hash(password = SecureRandom.hex(10))

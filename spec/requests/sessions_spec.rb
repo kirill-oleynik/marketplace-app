@@ -107,7 +107,7 @@ RSpec.describe 'Sessions requests' do
       end
 
       before(:each) do
-        redis.hmset('client_id', session_data)
+        redis.hmset('sess:client_id', session_data)
         put refresh_sessions_path, params: params
       end
 
