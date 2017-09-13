@@ -28,14 +28,14 @@ RSpec.describe AuthenticateCommand do
     repository
   end
 
-  let(:session_storage) do
-    session_storage = double('session_storage')
-    allow(session_storage)
+  let(:session_repository) do
+    session_repository = double('session_repository')
+    allow(session_repository)
       .to receive(:exists?)
-      .with(user.id.to_s, '2')
+      .with(user_id: user.id.to_s, session_id: '2')
       .and_return(session_existance)
 
-    session_storage
+    session_repository
   end
 
   let(:session_existance) { true }
@@ -44,7 +44,7 @@ RSpec.describe AuthenticateCommand do
     AuthenticateCommand.new(
       jwt: jwt_adapter,
       repository: user_repository,
-      session_storage: session_storage
+      session_repository: session_repository
     )
   end
 

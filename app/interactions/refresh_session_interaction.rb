@@ -5,7 +5,7 @@ class RefreshSessionInteraction
     repository: 'repositories.user',
     create_session: 'commands.create_session',
     refresh_session_scheme: 'schemes.refresh_session',
-    session_storage: 'repositories.session_storage'
+    session_repository: 'repositories.session_repository'
   ]
 
   step :validate
@@ -25,7 +25,7 @@ class RefreshSessionInteraction
   end
 
   def find_session_data(params)
-    session_data = session_storage.find(params[:client_id])
+    session_data = session_repository.find(params[:client_id])
 
     if session_data.present?
       Right(params.merge(

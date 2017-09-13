@@ -2,7 +2,7 @@ class AuthenticateCommand
   include Dry::Transaction
   include Inject[
     jwt: 'adapters.jwt',
-    session_storage: 'repositories.session_storage',
+    session_repository: 'repositories.session_repository',
     repository: 'repositories.user'
   ]
 
@@ -21,9 +21,9 @@ class AuthenticateCommand
   end
 
   def check_session(data)
-    session_exists = session_storage.exists?(
-      data['user_id'],
-      data['client_id']
+    session_exists = session_repository.exists?(
+      user_id: data['user_id'],
+      session_id: data['client_id']
     )
 
     if session_exists

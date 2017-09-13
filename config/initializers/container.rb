@@ -5,7 +5,7 @@ class Container
     register('user') { User }
     register('profile') { Profile }
     register('category') { Category }
-    register('session_storage') { SessionStorage.new }
+    register('session_repository') { SessionRepository.new }
   end
 
   namespace 'schemes' do

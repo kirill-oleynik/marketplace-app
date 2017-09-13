@@ -6,7 +6,7 @@ RSpec.describe ChangePasswordInteraction do
       change_password_scheme: change_password_scheme,
       bcrypt: bcrypt,
       repository: repository,
-      session_storage: session_storage,
+      session_repository: session_repository,
       jwt: jwt
     ).call(params)
   end
@@ -31,7 +31,7 @@ RSpec.describe ChangePasswordInteraction do
     double('user', password_hash: 'password_hash', id: 'id')
   end
 
-  let(:session_storage) { double(delete: true) }
+  let(:session_repository) { double(delete_sessions: true) }
 
   let(:jwt) do
     jwt = double('jwt')

@@ -4,14 +4,14 @@ RSpec.describe CreateSessionCommand do
   let(:jwt) { double(encode: 'jwt_token') }
   let(:bcrypt) { double(encode: 'bcrypt_token') }
   let(:redis) { double(exists: false, hmset: true, expire: true, sadd: true) }
-  let(:session_storage) { double(persist: true) }
+  let(:session_repository) { double(persist: true) }
 
   subject(:result) do
     CreateSessionCommand.new(
       jwt: jwt,
       bcrypt: bcrypt,
       redis: redis,
-      session_storage: session_storage
+      session_repository: session_repository
     )
   end
 

@@ -9,7 +9,7 @@ class CreateSessionCommand
     jwt: 'adapters.jwt',
     bcrypt: 'adapters.bcrypt',
     redis: 'adapters.redis',
-    session_storage: 'repositories.session_storage'
+    session_repository: 'repositories.session_repository'
   ]
 
   step :generate_refresh_token
@@ -69,7 +69,11 @@ class CreateSessionCommand
       refresh_token_hash: data[:refresh_token_hash]
     }
 
-    session_storage.persist(client_id, data_to_store, lifetime)
+    session_repository.persist(
+      session_id: client_id,
+      data: data_to_store,
+      lifetime: lifetime
+    )
 
     Right(
       Session.new(data)

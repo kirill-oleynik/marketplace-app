@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SessionStorage do
+RSpec.describe SessionRepository do
   subject { described_class.new(redis: redis) }
 
   let(:redis) do
@@ -30,7 +30,11 @@ RSpec.describe SessionStorage do
       expect(redis)
         .to receive(:expire).with('sess:id', lifetime)
 
-      subject.persist(id, data, lifetime)
+      subject.persist(
+        session_id: id,
+        data: data,
+        lifetime: lifetime
+      )
     end
   end
 
@@ -46,7 +50,7 @@ RSpec.describe SessionStorage do
     end
   end
 
-  describe '#delete' do
+  describe '#delete_sessions' do
     let(:user_id) { '123' }
     let(:except_ids) { %w[111 222] }
 
@@ -68,7 +72,10 @@ RSpec.describe SessionStorage do
       expect(redis)
         .to receive(:srem).with('user_sess:123', %w[sess:333 sess:444])
 
-      subject.delete(user_id, except_ids)
+      subject.delete_sessions(
+        user_id: user_id,
+        exclude_sessions_ids: except_ids
+      )
     end
   end
 
@@ -87,7 +94,8 @@ RSpec.describe SessionStorage do
       let(:session_keys) { %w[sess:111 sess:222] }
 
       it 'returns true' do
-        expect(subject.exists?(user_id, client_id)).to be_truthy
+        result = subject.exists?(user_id: user_id, session_id: client_id)
+        expect(result).to be_truthy
       end
     end
 
@@ -95,7 +103,8 @@ RSpec.describe SessionStorage do
       let(:session_keys) { %w[sess:111] }
 
       it 'returns false' do
-        expect(subject.exists?(user_id, client_id)).to be_falsey
+        result = subject.exists?(user_id: user_id, session_id: client_id)
+        expect(result).to be_falsey
       end
     end
   end

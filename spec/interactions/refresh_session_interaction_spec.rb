@@ -14,7 +14,7 @@ RSpec.describe RefreshSessionInteraction do
   let(:refresh_session_scheme) { -> (*) { double(success?: true) } }
   let(:create_session) { -> (*) { double(value: session) } }
   let(:user_repository) { double(find: user) }
-  let(:session_storage) { double(find: session_data) }
+  let(:session_repository) { double(find: session_data) }
 
   let(:params) do
     {
@@ -30,7 +30,7 @@ RSpec.describe RefreshSessionInteraction do
       create_session: create_session,
       refresh_session_scheme: refresh_session_scheme,
       session: session,
-      session_storage: session_storage
+      session_repository: session_repository
     )
   end
 
@@ -58,7 +58,7 @@ RSpec.describe RefreshSessionInteraction do
   end
 
   context 'when session data not found' do
-    let(:session_storage) { double(find: nil) }
+    let(:session_repository) { double(find: nil) }
 
     it 'is returns left monad with unauthorized error tuple' do
       result = subject.call(params)

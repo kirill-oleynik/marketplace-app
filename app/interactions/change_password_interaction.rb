@@ -4,7 +4,7 @@ class ChangePasswordInteraction
     change_password_scheme: 'schemes.change_password_scheme',
     bcrypt: 'adapters.bcrypt',
     repository: 'repositories.user',
-    session_storage: 'repositories.session_storage',
+    session_repository: 'repositories.session_repository',
     jwt: 'adapters.jwt'
   ]
 
@@ -53,9 +53,9 @@ class ChangePasswordInteraction
   end
 
   def delete_other_sessions(params)
-    session_storage.delete(
-      params[:user].id,
-      params[:client_id]
+    session_repository.delete_sessions(
+      user_id: params[:user].id,
+      exclude_sessions_ids: params[:client_id]
     )
 
     Right(params[:user])
