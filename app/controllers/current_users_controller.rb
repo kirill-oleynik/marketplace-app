@@ -27,6 +27,6 @@ class CurrentUsersController < ApiController
   def password_params
     params
       .permit(:current_password, :password, :password_confirmation)
-      .merge(user: current_user, token: auth_token)
+      .merge(user: current_user, client_id: client_id)
   end
 end

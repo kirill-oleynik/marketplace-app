@@ -15,18 +15,15 @@ class AuthenticateCommand
 
     payload, _headers = jwt.decode(token)
 
-    Right(
-      token: token,
-      payload: payload
-    )
+    Right(payload)
   rescue JWT::DecodeError, JWT::ExpiredSignature
     Left([:unauthorized])
   end
 
   def check_session(data)
     session_exists = session_storage.exists?(
-      data[:payload]['user_id'],
-      data[:payload]['client_id']
+      data['user_id'],
+      data['client_id']
     )
 
     if session_exists
@@ -37,9 +34,9 @@ class AuthenticateCommand
   end
 
   def find_user(data)
-    user = repository.find(data[:payload]['user_id'])
+    user = repository.find(data['user_id'])
 
-    Right(user)
+    Right([user, data['client_id']])
   rescue ActiveRecord::RecordNotFound
     Left([:unauthorized])
   end

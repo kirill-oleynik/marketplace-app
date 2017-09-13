@@ -49,11 +49,12 @@ RSpec.describe AuthenticateCommand do
   end
 
   context 'when token valid and user exists' do
-    it 'returns right monad with user' do
+    it 'returns right monad with user & client_id' do
       result = subject.call('jwt_token')
 
       expect(result).to be_right
-      expect(result.value).to eq(user)
+      expect(result.value[0]).to eq(user)
+      expect(result.value[1]).to eq(user_session['client_id'])
     end
   end
 

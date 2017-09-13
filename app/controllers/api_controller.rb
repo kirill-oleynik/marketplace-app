@@ -15,7 +15,11 @@ class ApiController < ActionController::API
   end
 
   def current_user
-    @current_user ||= auth_result.right? ? auth_result.value : nil
+    @current_user ||= auth_result.right? ? auth_result.value[0] : nil
+  end
+
+  def client_id
+    @client_id ||= auth_result.right? ? auth_result.value[1] : nil
   end
 
   def auth_result
