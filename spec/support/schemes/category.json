@@ -16,31 +16,7 @@
         "title": {
           "type": "string"
         },
-        "applications": {
-          "type": "array",
-          "items": {
-            "required": [
-              "id",
-              "title",
-              "description",
-              "logo"
-            ],
-            "properties": {
-              "id": {
-                "type": "integer"
-              },
-              "title": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
-              "logo": {
-                "type": "string"
-              }
-            }
-          }
-        }
+        "applications": { "$ref": "applications.json" }
       }
     }
   }

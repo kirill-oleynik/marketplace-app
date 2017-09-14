@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Categories requests' do
   describe '#show' do
     context 'when category exists', :with_db_cleaner do
-      let!(:category) { create(:category) }
+      let!(:category) { create(:category_with_application) }
 
       it 'returns single category' do
         get category_path(category.id)
@@ -27,7 +27,7 @@ RSpec.describe 'Categories requests' do
   end
 
   describe '#index', :with_db_cleaner do
-    let!(:category) { create(:category) }
+    let!(:category) { create(:category_with_application) }
 
     it 'returns list of categories' do
       expect(Category.count).to eq(1)

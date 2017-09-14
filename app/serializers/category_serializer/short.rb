@@ -1,7 +1,7 @@
 module CategorySerializer
   class Short < Base
     def applications
-      applications_data.first(4)
+      object.applications.take(4)
     end
   end
 end
