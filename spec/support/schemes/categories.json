@@ -8,7 +8,8 @@
         "required": [
           "id",
           "title",
-          "applications"
+          "applications",
+          "applications_count"
         ],
         "properties": {
           "id": {
@@ -17,31 +18,10 @@
           "title": {
             "type": "string"
           },
-          "applications": {
-            "type": "array",
-            "items": {
-              "required": [
-                "id",
-                "title",
-                "description",
-                "logo"
-              ],
-              "properties": {
-                "id": {
-                  "type": "integer"
-                },
-                "title": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "logo": {
-                  "type": "string"
-                }
-              }
-            }
-          }
+          "applications_count": {
+            "type": "number"
+          },
+          "applications": { "$ref": "applications.json" }
         }
       }
     }
