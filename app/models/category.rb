@@ -5,4 +5,8 @@ class Category < ApplicationRecord
   def self.all_with_applications
     all.includes(:applications)
   end
+
+  def applications_count
+    applications.count
+  end
 end

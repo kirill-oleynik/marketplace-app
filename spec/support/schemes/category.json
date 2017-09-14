@@ -7,7 +7,8 @@
       "required": [
         "id",
         "title",
-        "applications"
+        "applications",
+        "applications_count"
       ],
       "properties": {
         "id": {
@@ -15,6 +16,9 @@
         },
         "title": {
           "type": "string"
+        },
+        "applications_count": {
+          "type": "number"
         },
         "applications": { "$ref": "applications.json" }
       }
