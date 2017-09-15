@@ -1,4 +1,4 @@
 class ApplicationSerializer < ActiveModel::Serializer
   attributes :id, :title, :summary, :description, :website, :email, :address,
-             :phone, :founded, :logo
+             :phone, :founded, :logo, :slug
 end
