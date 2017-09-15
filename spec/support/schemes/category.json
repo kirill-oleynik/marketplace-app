@@ -7,6 +7,7 @@
       "required": [
         "id",
         "title",
+        "summary",
         "applications",
         "applications_count"
       ],
@@ -15,6 +16,9 @@
           "type": "integer"
         },
         "title": {
+          "type": "string"
+        },
+        "summary": {
           "type": "string"
         },
         "applications_count": {
