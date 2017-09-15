@@ -13,6 +13,10 @@ class Application < ApplicationRecord
     find_by!(slug: slug)
   end
 
+  def categories_ids
+    categories.ids
+  end
+
   def logo
     attachment.try(:url)
   end
