@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "properties": {
+    "required": [
+      "id",
+      "title",
+      "summary",
+      "description",
+      "website",
+      "email",
+      "logo",
+      "slug"
+    ],
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "title": {
+        "type": "string"
+      },
+      "summary": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "website": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string"
+      },
+      "logo": {
+        "type": "string"
+      },
+      "address": {
+        "type": "string"
+      },
+      "phone": {
+        "type": "string"
+      },
+      "founded": {
+        "type": "string"
+      },
+      "slug": {
+        "type": "string"
+      }
+    }
+  }
+}

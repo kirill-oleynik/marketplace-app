@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 
   resources :categories, only: [:show, :index]
 
+  resources :applications, only: [:show]
+
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     username_match = ActiveSupport::SecurityUtils.secure_compare(
       ::Digest::SHA256.hexdigest(username),
