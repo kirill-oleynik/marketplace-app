@@ -4,7 +4,13 @@ class BaseUploader < CarrierWave::Uploader::Base
   end
 
   def store_dir
-    File.join(store_dir_prefix, root_dir_name, model.id.to_s)
+    common = File.join(root_dir_name, model.id.to_s)
+
+    if Rails.env.production?
+      common
+    else
+      File.join('uploads', Rails.env, common)
+    end
   end
 
   private
@@ -18,13 +24,5 @@ class BaseUploader < CarrierWave::Uploader::Base
 
   def root_dir_name
     self.class.name.underscore.gsub(/_uploader$/, '')
-  end
-
-  def store_dir_prefix
-    if Rails.env.production?
-      ''
-    else
-      File.join('uploads', Rails.env)
-    end
   end
 end
