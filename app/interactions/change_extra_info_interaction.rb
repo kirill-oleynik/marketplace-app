@@ -1,7 +1,7 @@
 class ChangeExtraInfoInteraction
   include Dry::Transaction
   include Inject[
-    persist_profile_command: 'commands.persist_profile_command',
+    persist_profile_command: 'commands.persist_profile',
     change_extra_info_scheme: 'schemes.change_extra_info'
   ]
 

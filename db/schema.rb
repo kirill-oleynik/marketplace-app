@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170914103206) do
+ActiveRecord::Schema.define(version: 20170915090445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "application_attachments", primary_key: "application_id", force: :cascade do |t|
+    t.bigint "attachment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attachment_id"], name: "index_application_attachments_on_attachment_id", unique: true
+  end
 
   create_table "application_categories", force: :cascade do |t|
     t.bigint "application_id"
@@ -34,11 +41,9 @@ ActiveRecord::Schema.define(version: 20170914103206) do
     t.string "address"
     t.string "phone"
     t.date "founded"
-    t.bigint "attachment_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "summary", default: "", null: false
-    t.index ["attachment_id"], name: "index_applications_on_attachment_id", unique: true
+    t.string "summary", null: false
     t.index ["slug"], name: "index_applications_on_slug", unique: true
   end
 
@@ -63,6 +68,8 @@ ActiveRecord::Schema.define(version: 20170914103206) do
     t.string "phone", null: false
     t.string "job_title", null: false
     t.string "organization", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
   end
 
@@ -76,6 +83,9 @@ ActiveRecord::Schema.define(version: 20170914103206) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "applications", "attachments", on_delete: :cascade
+  add_foreign_key "application_attachments", "applications", on_delete: :cascade
+  add_foreign_key "application_attachments", "attachments", on_delete: :cascade
+  add_foreign_key "application_categories", "applications", on_delete: :cascade
+  add_foreign_key "application_categories", "categories", on_delete: :cascade
   add_foreign_key "profiles", "users", on_delete: :cascade
 end

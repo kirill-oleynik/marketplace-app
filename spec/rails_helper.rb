@@ -6,6 +6,7 @@ abort(
   'The Rails environment is running in production mode!'
 ) if Rails.env.production?
 
+require 'fileutils'
 require 'rspec/rails'
 require 'database_cleaner'
 require 'json_matchers/rspec'
@@ -52,5 +53,21 @@ RSpec.configure do |config|
 
   config.append_after :each, with_redis_cleaner: true do
     Redis.current.flushall
+  end
+
+  config.after :suite do
+    test_uploads_path = File.join(Rails.root, 'public', 'uploads', 'test')
+    FileUtils.rm_rf(test_uploads_path) if Dir.exist?(test_uploads_path)
+  end
+
+  if Bullet.enable?
+    config.before(:each) do
+      Bullet.start_request
+    end
+
+    config.after(:each) do
+      Bullet.perform_out_of_channel_notifications if Bullet.notification?
+      Bullet.end_request
+    end
   end
 end

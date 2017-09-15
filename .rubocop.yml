@@ -20,6 +20,8 @@ Style/Lambda:
   EnforcedStyle: literal
 Style/SymbolArray:
   EnforcedStyle: brackets
+Style/CommentAnnotation:
+  Enabled: false
 Metrics/BlockLength:
   Exclude:
     - spec/**/*.rb

@@ -5,7 +5,10 @@ class Container
     register('user') { User }
     register('profile') { Profile }
     register('category') { Category }
-    register('session_repository') { SessionRepository.new }
+    register('attachment') { Attachment }
+    register('application') { Application }
+    register('application_attachment') { ApplicationAttachment }
+    register('session') { SessionRepository.new }
   end
 
   namespace 'schemes' do
@@ -13,8 +16,10 @@ class Container
     register('sign_up') { SignUpScheme }
     register('refresh_session') { RefreshSessionScheme }
     register('change_extra_info') { ChangeExtraInfoScheme }
-    register('update_user_scheme') { UpdateUserScheme }
-    register('change_password_scheme') { ChangePasswordScheme }
+    register('update_user') { UpdateUserScheme }
+    register('change_password') { ChangePasswordScheme }
+    register('create_attachment') { CreateAttachmentScheme }
+    register('create_application') { CreateApplicationScheme }
   end
 
   namespace 'adapters' do
@@ -27,7 +32,7 @@ class Container
     register('create_session') { CreateSessionCommand.new }
     register('validate_refresh_token') { ValidateRefreshTokenCommand.new }
     register('authenticate') { AuthenticateCommand.new }
-    register('persist_profile_command') { PersistProfileCommand.new }
+    register('persist_profile') { PersistProfileCommand.new }
     register('change_email') { ChangeEmailCommand.new }
   end
 end
