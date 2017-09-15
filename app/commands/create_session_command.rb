@@ -9,7 +9,7 @@ class CreateSessionCommand
     jwt: 'adapters.jwt',
     bcrypt: 'adapters.bcrypt',
     redis: 'adapters.redis',
-    session_repository: 'repositories.session_repository'
+    session_repository: 'repositories.session'
   ]
 
   step :generate_refresh_token

@@ -13,6 +13,8 @@ gem 'bcrypt'
 gem 'jwt'
 gem 'sidekiq'
 gem 'connection_pool'
+gem 'fog-aws'
+gem 'carrierwave'
 
 gem 'dry-types'
 gem 'dry-struct'
@@ -31,6 +33,7 @@ end
 
 group :test do
   gem 'fuubar'
+  gem 'bullet'
   gem 'rspec-rails'
   gem 'json_matchers'
   gem 'database_cleaner'

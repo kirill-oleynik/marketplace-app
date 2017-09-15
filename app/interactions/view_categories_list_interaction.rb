@@ -7,7 +7,7 @@ class ViewCategoriesListInteraction
   step :find
 
   def find
-    categories = repository.all_with_applications
+    categories = repository.all
 
     Right(categories)
   end

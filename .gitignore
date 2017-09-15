@@ -19,3 +19,6 @@
 
 .env.development
 .env.test
+
+/public/uploads/*
+!/public/uploads/.keep

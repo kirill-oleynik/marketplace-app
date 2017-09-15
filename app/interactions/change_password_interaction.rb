@@ -1,10 +1,10 @@
 class ChangePasswordInteraction
   include Dry::Transaction
   include Inject[
-    change_password_scheme: 'schemes.change_password_scheme',
+    change_password_scheme: 'schemes.change_password',
     bcrypt: 'adapters.bcrypt',
     repository: 'repositories.user',
-    session_repository: 'repositories.session_repository',
+    session_repository: 'repositories.session',
     jwt: 'adapters.jwt'
   ]
 

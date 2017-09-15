@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ViewCategoriesListInteraction do
   let(:category) { build(:category) }
-  let(:repository) { double(all_with_applications: [category]) }
+  let(:repository) { double(all: [category]) }
 
   subject { ViewCategoriesListInteraction.new(repository: repository) }
 

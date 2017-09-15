@@ -13,6 +13,5 @@ FactoryGirl.define do
       "#{Faker::Address.city}, "\
       "#{Faker::Address.zip}"
     end
-    attachment
   end
 end

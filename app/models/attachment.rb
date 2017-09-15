@@ -1,3 +1,7 @@
 class Attachment < ApplicationRecord
-  has_one :application
+  mount_uploader :filename, AttachmentUploader
+
+  def url
+    filename.url
+  end
 end

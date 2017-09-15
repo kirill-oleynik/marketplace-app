@@ -2,8 +2,8 @@ class UpdateUserInteraction
   include Dry::Transaction
   include Inject[
     change_email: 'commands.change_email',
-    update_user_scheme: 'schemes.update_user_scheme',
-    persist_profile_command: 'commands.persist_profile_command',
+    update_user_scheme: 'schemes.update_user',
+    persist_profile_command: 'commands.persist_profile',
     repository: 'repositories.user'
   ]
 

@@ -2,7 +2,7 @@ class AuthenticateCommand
   include Dry::Transaction
   include Inject[
     jwt: 'adapters.jwt',
-    session_repository: 'repositories.session_repository',
+    session_repository: 'repositories.session',
     repository: 'repositories.user'
   ]
 

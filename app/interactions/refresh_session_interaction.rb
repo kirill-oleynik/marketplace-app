@@ -5,7 +5,7 @@ class RefreshSessionInteraction
     repository: 'repositories.user',
     create_session: 'commands.create_session',
     refresh_session_scheme: 'schemes.refresh_session',
-    session_repository: 'repositories.session_repository'
+    session_repository: 'repositories.session'
   ]
 
   step :validate

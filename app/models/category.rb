@@ -2,11 +2,11 @@ class Category < ApplicationRecord
   has_many :application_categories
   has_many :applications, through: :application_categories
 
-  def self.all_with_applications
-    all.includes(:applications)
+  default_scope do
+    includes(applications: [:application_attachment, :attachment])
   end
 
   def applications_count
-    applications.count
+    applications.size
   end
 end
