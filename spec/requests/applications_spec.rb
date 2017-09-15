@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Applications requests' do
   describe '#show' do
-    context 'when application exists', :with_db_cleaner do
-      let!(:application) { create(:application) }
+    context 'when application exists' do
+      let(:application) { create(:application) }
 
-      it 'returns single application' do
+      it 'returns single application', :with_db_cleaner do
         get application_path(application.slug)
 
         expect(response).to have_http_status(200)
