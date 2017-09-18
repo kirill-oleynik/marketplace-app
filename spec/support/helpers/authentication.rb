@@ -12,10 +12,6 @@ module Support
         yield auth_result['data']['access_token'] if block_given?
       end
 
-      def password_hash(password = SecureRandom.hex(10))
-        BcryptAdapter.new.encode(password)
-      end
-
       def with_auth_header(access_token, headers = {})
         headers.merge('Authorization' => "Bearer #{access_token}")
       end

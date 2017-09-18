@@ -28,6 +28,11 @@ module Responder
         render status: 404,
                json: Errors::NotFound.new(value).to_json
       end
+
+      result.failure :forbidden do
+        render status: 403,
+               json: Errors::Forbidden.new.to_json
+      end
     end
   end
 end

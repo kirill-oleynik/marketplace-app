@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Current User requests' do
   let(:password) { '123456' }
-  let(:encoded_password) { password_hash(password) }
-  let(:user) { create(:user, password_hash: encoded_password) }
+  let(:user) { create(:user, password: password) }
 
   describe '#show' do
     it 'returns serialized user data', :with_db_cleaner do

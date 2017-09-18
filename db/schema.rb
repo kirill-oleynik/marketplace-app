@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170915090445) do
+ActiveRecord::Schema.define(version: 20170915113213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,16 @@ ActiveRecord::Schema.define(version: 20170915090445) do
     t.index ["title"], name: "index_categories_on_title", unique: true
   end
 
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_id"], name: "index_favorites_on_application_id"
+    t.index ["user_id", "application_id"], name: "index_favorites_on_user_id_and_application_id", unique: true
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "phone", null: false
@@ -87,5 +97,7 @@ ActiveRecord::Schema.define(version: 20170915090445) do
   add_foreign_key "application_attachments", "attachments", on_delete: :cascade
   add_foreign_key "application_categories", "applications", on_delete: :cascade
   add_foreign_key "application_categories", "categories", on_delete: :cascade
+  add_foreign_key "favorites", "applications", on_delete: :cascade
+  add_foreign_key "favorites", "users", on_delete: :cascade
   add_foreign_key "profiles", "users", on_delete: :cascade
 end

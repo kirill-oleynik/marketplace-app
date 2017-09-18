@@ -3,10 +3,12 @@ en:
     not_unique: already taken
     authentication: Invalid credentials
     titles:
+      forbidden: Forbidden
       unauthorized: Unauthorized
       not_found: Record Not Found
       unprocessable_entity: Unprocessable Entity
     messages:
+      forbidden: Access denied
       not_found: Can't find {{ entity }}, with id {{ id }}
       unauthorized: Access is denied due to invalid credentials
       unprocessable_entity: Object is not valid and cannot be processed

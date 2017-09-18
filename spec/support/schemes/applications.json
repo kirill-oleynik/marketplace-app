@@ -2,47 +2,52 @@
   "type": "array",
   "items": {
     "type": "object",
+    "required": [
+      "id",
+      "title",
+      "summary",
+      "description",
+      "website",
+      "email",
+      "logo",
+      "slug",
+      "address",
+      "phone",
+      "founded"
+    ],
     "properties": {
-      "required": [
-        "id",
-        "title",
-        "summary",
-        "description",
-        "website",
-        "email",
-        "logo"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer"
-        },
-        "title": {
-          "type": "string"
-        },
-        "summary": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "website": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "logo": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "founded": {
-          "type": "string"
-        }
+      "id": {
+        "type": "integer"
+      },
+      "title": {
+        "type": "string"
+      },
+      "summary": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "website": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string"
+      },
+      "slug": {
+        "type": "string"
+      },
+      "logo": {
+        "type": "string|null"
+      },
+      "address": {
+        "type": "string|null"
+      },
+      "phone": {
+        "type": "string|null"
+      },
+      "founded": {
+        "type": "string|null"
       }
     }
   }

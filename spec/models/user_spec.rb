@@ -17,4 +17,28 @@ RSpec.describe User do
       expect(User.find_by_email(email)).to eq(user)
     end
   end
+
+  describe '#favorite_owner?' do
+    subject(:user) { build(:user, id: 1) }
+
+    context 'when favorite belongs to user' do
+      let(:favorite) { build(:favorite, user_id: 1, application_id: nil) }
+
+      it 'returns true' do
+        expect(
+          subject.favorite_owner?(favorite)
+        ).to be_truthy
+      end
+    end
+
+    context 'when favorite not belongs to user' do
+      let(:favorite) { build(:favorite, user_id: 2, application_id: nil) }
+
+      it 'returns true' do
+        expect(
+          subject.favorite_owner?(favorite)
+        ).to be_falsey
+      end
+    end
+  end
 end

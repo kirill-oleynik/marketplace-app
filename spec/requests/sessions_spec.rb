@@ -9,7 +9,7 @@ RSpec.describe 'Sessions requests' do
     let!(:password) { SecureRandom.hex(5) }
 
     context 'when params are valid', :with_db_cleaner do
-      let!(:user) { create(:user, password_hash: password_hash(password)) }
+      let!(:user) { create(:user, password: password) }
 
       let(:params) do
         {
@@ -38,7 +38,7 @@ RSpec.describe 'Sessions requests' do
     end
 
     context 'when email is wrong' do
-      let!(:user) { create(:user, password_hash: password_hash(password)) }
+      let!(:user) { create(:user, password: password) }
 
       let(:params) do
         {

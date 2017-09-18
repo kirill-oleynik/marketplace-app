@@ -22,7 +22,11 @@ Rails.application.routes.draw do
 
   resources :categories, only: [:show, :index]
 
-  resources :applications, only: [:show]
+  resources :applications, only: [:show] do
+    resources :favorites, only: [:create]
+  end
+
+  resources :favorites, only: [:destroy]
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     username_match = ActiveSupport::SecurityUtils.secure_compare(

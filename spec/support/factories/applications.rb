@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :application do
-    slug { Faker::Internet.slug.gsub('.', '') }
+    slug { Faker::Internet.slug.tr('.', '') }
     title { Faker::App.name }
     summary { Faker::Lorem.paragraph }
     description { Faker::Lorem.paragraph }

@@ -37,4 +37,8 @@ class ApiController < ActionController::API
   def authenticator
     @authenticator ||= Container.resolve('commands.authenticate')
   end
+
+  def serialization_scope
+    SerializationScope.new(current_user: current_user)
+  end
 end

@@ -6,22 +6,18 @@
       "type": "object",
       "required": [
         "id",
-        "title",
-        "applications",
-        "applications_count"
+        "user_id",
+        "application_id"
       ],
       "properties": {
         "id": {
           "type": "integer"
         },
-        "title": {
-          "type": "string"
-        },
-        "applications_count": {
+        "user_id": {
           "type": "integer"
         },
-        "applications": {
-          "$ref": "applications.json"
+        "application_id": {
+          "type": "integer"
         }
       }
     }

@@ -9,6 +9,7 @@ class Container
     register('application') { Application }
     register('application_attachment') { ApplicationAttachment }
     register('session') { SessionRepository.new }
+    register('favorite') { Favorite }
   end
 
   namespace 'schemes' do
