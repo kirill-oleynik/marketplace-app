@@ -39,6 +39,8 @@ class ApiController < ActionController::API
   end
 
   def serialization_scope
-    SerializationScope.new(current_user: current_user)
+    @serialization_scope ||= OpenStruct.new(
+      current_user: current_user
+    )
   end
 end

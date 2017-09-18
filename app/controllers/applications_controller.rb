@@ -4,6 +4,6 @@ class ApplicationsController < ApiController
 
     respond_with(result, status: 200,
                          scope: serialization_scope,
-                         serializer: ApplicationSerializer)
+                         serializer: ApplicationSerializer::Full)
   end
 end
