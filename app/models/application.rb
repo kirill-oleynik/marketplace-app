@@ -7,6 +7,8 @@ class Application < ApplicationRecord
   has_one :application_attachment, dependent: :destroy
   has_one :attachment, through: :application_attachment
 
+  has_many :favorites, dependent: :destroy
+
   def self.find_by_slug!(slug)
     find_by!(slug: slug)
   end

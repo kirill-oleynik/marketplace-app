@@ -20,4 +20,16 @@ class ApplicationRecord < ActiveRecord::Base
       object
     end
   end
+
+  def self.destroy!(id)
+    object =
+      if id.is_a?(ActiveRecord::Base)
+        id
+      else
+        find(id)
+      end
+
+    object.destroy!
+    object
+  end
 end

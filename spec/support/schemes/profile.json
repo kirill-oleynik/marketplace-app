@@ -19,13 +19,13 @@
           "type": "integer"
         },
         "phone": {
-          "type": "integer|null"
+          "type": "string"
         },
         "job_title": {
-          "type": "string|null"
+          "type": "string"
         },
         "organization": {
-          "type": "string|null"
+          "type": "string"
         }
       }
     }

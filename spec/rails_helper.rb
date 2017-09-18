@@ -32,6 +32,10 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+JsonMatchers.configure do |config|
+  config.options[:strict] = true
+end
+
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
@@ -39,6 +43,8 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   config.include FactoryGirl::Syntax::Methods
+
+  config.include Support::Helpers::Mocks
   config.include Support::Helpers::Authentication
 
   config.prepend_before :each, with_db_cleaner: true do
