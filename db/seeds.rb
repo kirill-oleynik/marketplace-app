@@ -44,7 +44,9 @@ end
   'Trade Reconciliation', 'Investor Relations', 'Accounting', 'Compliance',
   'Administration', 'IT Support'
 ].each do |category|
-  Category.where(title: category, summary: category).first_or_create!
+  next if Category.find_by(title: category)
+
+  Category.create!(title: category, summary: Faker::Lorem.paragraph(4))
 end
 
 [
