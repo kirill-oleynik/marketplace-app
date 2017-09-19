@@ -161,7 +161,7 @@ end
 Application.find_each do |application|
   ApplicationCategory.where(
     application: application,
-    category_id: Category.first
+    category_id: Category.ids.sample
   ).first_or_create!
 
   next if Gallery.find_by(application_id: application.id)
