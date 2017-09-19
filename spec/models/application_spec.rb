@@ -23,4 +23,17 @@ RSpec.describe Application, type: :model do
       end
     end
   end
+
+  describe '#categories_ids' do
+    let(:category1) { create(:category, id: 1) }
+    let(:category2) { create(:category, id: 2) }
+
+    let!(:application) do
+      create(:application_with_categories, categories: [category1, category2])
+    end
+
+    it 'returns array of assotiated categories ids', :with_db_cleaner do
+      expect(application.categories_ids).to eq([1, 2])
+    end
+  end
 end

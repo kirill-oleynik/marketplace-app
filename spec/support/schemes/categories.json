@@ -18,6 +18,9 @@
           "title": {
             "type": "string"
           },
+          "summary": {
+            "type": "string"
+          },
           "applications_count": {
             "type": "number"
           },

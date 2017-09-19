@@ -13,5 +13,16 @@ FactoryGirl.define do
       "#{Faker::Address.city}, "\
       "#{Faker::Address.zip}"
     end
+
+    factory :application_with_categories do
+      transient do
+        categories []
+      end
+
+      after(:create) do |application, evaluator|
+        application.categories << evaluator.categories
+        application.save
+      end
+    end
   end
 end
