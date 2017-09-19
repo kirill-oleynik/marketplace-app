@@ -1,6 +1,7 @@
 module ApplicationSerializer
   class Full < Base
-    attributes :description, :website, :email, :address, :phone, :founded
+    attributes :description, :website, :email, :address, :phone, :founded,
+               :categories_ids
 
     has_one :favorite
 

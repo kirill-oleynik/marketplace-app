@@ -158,11 +158,9 @@ end
   )
 end
 
-Category.find_each do |category|
-  Application.find_each do |application|
-    ApplicationCategory.where(
-      category: category,
-      application: application
-    ).first_or_create!
-  end
+Application.find_each do |application|
+  ApplicationCategory.where(
+    application: application,
+    category_id: rand(Category.count)
+  ).first_or_create!
 end

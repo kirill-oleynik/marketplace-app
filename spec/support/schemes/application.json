@@ -11,7 +11,8 @@
         "description",
         "website",
         "email",
-        "slug"
+        "slug",
+        "categories_ids"
       ],
       "properties": {
         "id": {
@@ -49,6 +50,12 @@
         },
         "favorite": {
           "type": "object|null"
+        },
+        "categories_ids": {
+          "type": "array",
+          "attributes": {
+            "type": "number"
+          }
         }
       }
     }
