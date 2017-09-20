@@ -12,7 +12,8 @@
         "website",
         "email",
         "slug",
-        "categories_ids"
+        "categories_ids",
+        "review"
       ],
       "properties": {
         "id": {
@@ -56,6 +57,9 @@
           "attributes": {
             "type": "number"
           }
+        },
+        "review": {
+          "type": "number|null"
         }
       }
     }
