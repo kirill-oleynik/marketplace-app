@@ -101,6 +101,17 @@ ActiveRecord::Schema.define(version: 20170918123854) do
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.integer "value", null: false
+    t.bigint "user_id", null: false
+    t.bigint "application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_id"], name: "index_reviews_on_application_id"
+    t.index ["user_id", "application_id"], name: "index_reviews_on_user_id_and_application_id", unique: true
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -121,4 +132,6 @@ ActiveRecord::Schema.define(version: 20170918123854) do
   add_foreign_key "gallery_attachments", "attachments", on_delete: :cascade
   add_foreign_key "gallery_attachments", "galleries", on_delete: :cascade
   add_foreign_key "profiles", "users", on_delete: :cascade
+  add_foreign_key "reviews", "applications", on_delete: :cascade
+  add_foreign_key "reviews", "users", on_delete: :nullify
 end
