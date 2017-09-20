@@ -10,6 +10,7 @@ AllCops:
     - config/puma.rb
     - config/environments/*.rb
     - vendor/**/*
+    - db/seeds.rb
 Documentation:
   Enabled: false
 FrozenStringLiteralComment:

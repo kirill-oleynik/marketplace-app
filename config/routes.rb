@@ -22,10 +22,13 @@ Rails.application.routes.draw do
 
   resources :categories, only: [:show, :index]
 
-  resources :applications, only: [:show] do
-    resources :favorites, only: [:create]
+  resources :applications, param: :slug, only: [:show] do
+    resource :gallery, only: [:show]
   end
 
+  resources :applications, only: [] do
+    resources :favorites, only: [:create]
+  end
   resources :favorites, only: [:destroy]
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|

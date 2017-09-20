@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170915130455) do
+ActiveRecord::Schema.define(version: 20170918123854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,23 @@ ActiveRecord::Schema.define(version: 20170915130455) do
     t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
+  create_table "galleries", force: :cascade do |t|
+    t.bigint "application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_id"], name: "index_galleries_on_application_id", unique: true
+  end
+
+  create_table "gallery_attachments", force: :cascade do |t|
+    t.bigint "gallery_id", null: false
+    t.bigint "attachment_id", null: false
+    t.string "title"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gallery_id", "attachment_id"], name: "index_gallery_attachments_on_gallery_id_and_attachment_id", unique: true
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "phone", null: false
@@ -100,5 +117,8 @@ ActiveRecord::Schema.define(version: 20170915130455) do
   add_foreign_key "application_categories", "categories", on_delete: :cascade
   add_foreign_key "favorites", "applications", on_delete: :cascade
   add_foreign_key "favorites", "users", on_delete: :cascade
+  add_foreign_key "galleries", "applications", on_delete: :cascade
+  add_foreign_key "gallery_attachments", "attachments", on_delete: :cascade
+  add_foreign_key "gallery_attachments", "galleries", on_delete: :cascade
   add_foreign_key "profiles", "users", on_delete: :cascade
 end

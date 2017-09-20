@@ -10,6 +10,7 @@ class Container
     register('application_attachment') { ApplicationAttachment }
     register('session') { SessionRepository.new }
     register('favorite') { Favorite }
+    register('gallery') { Gallery }
   end
 
   namespace 'schemes' do
