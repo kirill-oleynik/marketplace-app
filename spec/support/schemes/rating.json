@@ -1,0 +1,47 @@
+{
+  "type": "object",
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "type": "object",
+      "required": [
+        "id",
+        "average",
+        "votes",
+        "total"
+      ],
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "average": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        },
+        "votes": {
+          "type": "object",
+          "required": ["1", "2", "3", "4", "5"],
+          "properties": {
+            "1": {
+              "type": "number"
+            },
+            "2": {
+              "type": "number"
+            },
+            "3": {
+              "type": "number"
+            },
+            "4": {
+              "type": "number"
+            },
+            "5": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

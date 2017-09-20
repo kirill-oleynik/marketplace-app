@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   resources :applications, param: :slug, only: [:show] do
     resource :gallery, only: [:show]
+    resource :rating, only: [:show]
   end
 
   resources :applications, only: [] do
