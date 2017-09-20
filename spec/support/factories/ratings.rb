@@ -3,7 +3,6 @@ FactoryGirl.define do
     application
 
     trait :zero do
-      average 0
       one_points_votes 0
       two_points_votes 0
       three_points_votes 0

@@ -5,7 +5,8 @@ RSpec.describe CreateReviewInteraction do
     described_class.new(
       create_review_scheme: create_review_scheme,
       application_repository: application_repository,
-      review_repository: review_repository
+      review_repository: review_repository,
+      update_rating: update_rating
     ).call(params)
   end
 
@@ -19,6 +20,7 @@ RSpec.describe CreateReviewInteraction do
 
   let(:create_review_scheme) { -> (_) { double(success?: true) } }
   let(:application_repository) { double(exists?: true) }
+  let(:update_rating) { double('update_rating', call: build(:rating)) }
   let(:review_repository) do
     review_repository = double('review_repository')
     allow(review_repository).to receive(:create!).and_return('review')

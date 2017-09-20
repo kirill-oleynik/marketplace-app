@@ -3,12 +3,14 @@ class CreateReviewInteraction
   include Inject[
     create_review_scheme: 'schemes.create_review',
     application_repository: 'repositories.application',
-    review_repository: 'repositories.review'
+    review_repository: 'repositories.review',
+    update_rating: 'commands.update_rating'
   ]
 
   step :validate_params
   step :check_application
   step :persist
+  step :update_application_rating
 
   def validate_params(params)
     result = create_review_scheme.call(params)
@@ -37,5 +39,11 @@ class CreateReviewInteraction
     Right(review)
   rescue ActiveRecord::RecordNotUnique
     Left([:invalid, rating: [I18n.t('errors.not_unique')]])
+  end
+
+  def update_application_rating(review)
+    update_rating.call(review)
+
+    Right(review)
   end
 end

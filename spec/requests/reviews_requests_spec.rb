@@ -27,11 +27,15 @@ RSpec.describe 'Reviews Requests' do
 
     it 'creates new review and returns 200 status with serialized review' do
       expect(reviews_count).to eq(0)
+      expect(ratings_count).to eq(0)
 
       create_review_request do
         expect(reviews_count).to eq(1)
         expect(review_app).to eq(application)
         expect(review_user).to eq(user)
+
+        expect(ratings_count).to eq(1)
+        expect(rating_five_points_votes).to eq(1)
 
         expect(response).to have_http_status(200)
         expect(response.body).to match_response_schema('review')
@@ -52,6 +56,14 @@ RSpec.describe 'Reviews Requests' do
 
   def reviews_count
     Review.count
+  end
+
+  def ratings_count
+    Rating.count
+  end
+
+  def rating_five_points_votes
+    Rating.first.five_points_votes
   end
 
   def review_app

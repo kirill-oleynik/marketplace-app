@@ -11,6 +11,7 @@ class Container
     register('session') { SessionRepository.new }
     register('favorite') { Favorite }
     register('review') { Review }
+    register('rating') { Rating }
     register('gallery') { Gallery }
   end
 
@@ -38,5 +39,6 @@ class Container
     register('authenticate') { AuthenticateCommand.new }
     register('persist_profile') { PersistProfileCommand.new }
     register('change_email') { ChangeEmailCommand.new }
+    register('update_rating') { UpdateRatingCommand.new }
   end
 end
