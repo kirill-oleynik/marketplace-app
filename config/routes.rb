@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   end
   resources :favorites, only: [:destroy]
 
+  resources :reviews, only: [:create]
+
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     username_match = ActiveSupport::SecurityUtils.secure_compare(
       ::Digest::SHA256.hexdigest(username),

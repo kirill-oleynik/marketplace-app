@@ -10,6 +10,7 @@ class Container
     register('application_attachment') { ApplicationAttachment }
     register('session') { SessionRepository.new }
     register('favorite') { Favorite }
+    register('review') { Review }
     register('gallery') { Gallery }
   end
 
@@ -22,6 +23,7 @@ class Container
     register('change_password') { ChangePasswordScheme }
     register('create_attachment') { CreateAttachmentScheme }
     register('create_application') { CreateApplicationScheme }
+    register('create_review') { CreateReviewScheme }
   end
 
   namespace 'adapters' do
