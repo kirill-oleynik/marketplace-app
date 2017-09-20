@@ -4,11 +4,21 @@ module ApplicationSerializer
                :categories_ids
 
     has_one :favorite
+    has_one :review
 
     def favorite
       return unless scope.current_user
 
       Favorite.find_by_user_and_application(
+        application: object,
+        user: scope.current_user
+      )
+    end
+
+    def review
+      return unless scope.current_user
+
+      Review.find_value_by_user_and_application(
         application: object,
         user: scope.current_user
       )

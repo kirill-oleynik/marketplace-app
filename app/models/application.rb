@@ -3,6 +3,7 @@ class Application < ApplicationRecord
 
   has_many :application_categories, dependent: :destroy
   has_many :categories, through: :application_categories
+  has_many :reviews, dependent: :destroy
 
   has_one :application_attachment, dependent: :destroy
   has_one :attachment, through: :application_attachment

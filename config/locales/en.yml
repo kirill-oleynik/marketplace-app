@@ -2,6 +2,7 @@ en:
   errors:
     not_unique: already taken
     authentication: Invalid credentials
+    review_value?: must be a number between 1 and 5
     titles:
       forbidden: Forbidden
       unauthorized: Unauthorized
@@ -12,4 +13,3 @@ en:
       not_found: Can't find {{ entity }}, with id {{ id }}
       unauthorized: Access is denied due to invalid credentials
       unprocessable_entity: Object is not valid and cannot be processed
-
