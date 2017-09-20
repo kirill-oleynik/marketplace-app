@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918123854) do
+ActiveRecord::Schema.define(version: 20170920082305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,6 +101,18 @@ ActiveRecord::Schema.define(version: 20170918123854) do
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.integer "one_points_votes", default: 0, null: false
+    t.integer "two_points_votes", default: 0, null: false
+    t.integer "three_points_votes", default: 0, null: false
+    t.integer "four_points_votes", default: 0, null: false
+    t.integer "five_points_votes", default: 0, null: false
+    t.bigint "application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_id"], name: "index_ratings_on_application_id", unique: true
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.integer "value", null: false
     t.bigint "user_id", null: false
@@ -132,6 +144,7 @@ ActiveRecord::Schema.define(version: 20170918123854) do
   add_foreign_key "gallery_attachments", "attachments", on_delete: :cascade
   add_foreign_key "gallery_attachments", "galleries", on_delete: :cascade
   add_foreign_key "profiles", "users", on_delete: :cascade
+  add_foreign_key "ratings", "applications", on_delete: :cascade
   add_foreign_key "reviews", "applications", on_delete: :cascade
   add_foreign_key "reviews", "users", on_delete: :nullify
 end

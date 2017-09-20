@@ -3,10 +3,12 @@ require 'rails_helper'
 RSpec.describe Application, type: :model do
   it { is_expected.to have_many(:application_categories) }
   it { is_expected.to have_many(:categories).through(:application_categories) }
-  it { is_expected.to have_one(:application_attachment) }
-  it { is_expected.to have_one(:attachment).through(:application_attachment) }
   it { is_expected.to have_many(:favorites) }
   it { is_expected.to have_many(:reviews) }
+
+  it { is_expected.to have_one(:application_attachment) }
+  it { is_expected.to have_one(:attachment).through(:application_attachment) }
+  it { is_expected.to have_one(:rating) }
 
   describe '#find_by_slug!', :with_db_cleaner do
     let!(:application) { create(:application, slug: 'slug') }
