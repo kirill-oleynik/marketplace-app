@@ -1,11 +1,13 @@
 CreateReviewScheme = Dry::Validation.Schema do
   configure do
     def review_value?(value)
-      value.between?(1, 5)
+      Review::REVIEW_SCALE.include? Integer(value)
+    rescue ArgumentError
+      false
     end
   end
 
   required(:user).filled
-  required(:application_id).filled(:int?)
-  required(:value).filled(:int?, :review_value?)
+  required(:application_id) { int? | str? }
+  required(:value) { int? | str? & review_value? }
 end

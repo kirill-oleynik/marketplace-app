@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :review do
-    value { rand(1..5) }
+    value { Review::REVIEW_SCALE.sample }
     user
     application
   end

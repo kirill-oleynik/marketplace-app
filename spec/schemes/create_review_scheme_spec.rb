@@ -7,7 +7,7 @@ RSpec.describe CreateReviewScheme do
     {
       application_id: 1,
       user: build(:user),
-      value: 1
+      value: attributes_for(:review)[:value]
     }
   end
 
@@ -35,13 +35,19 @@ RSpec.describe CreateReviewScheme do
 
   describe 'value' do
     context 'when value is missing' do
-      let(:params) { valid_params.except(:application_id) }
+      let(:params) { valid_params.except(:value) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when string does not contain a number' do
+      let(:params) { valid_params.merge(value: 'abc') }
 
       it { is_expected.to be_falsey }
     end
 
     context 'when string does not contain a number between 1 and 5' do
-      let(:params) { valid_params.merge(value: 0) }
+      let(:params) { valid_params.merge(value: '0') }
 
       it { is_expected.to be_falsey }
     end

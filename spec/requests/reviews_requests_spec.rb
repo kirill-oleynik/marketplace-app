@@ -7,7 +7,7 @@ RSpec.describe 'Reviews Requests' do
   let(:valid_params) do
     {
       application_id: application.id,
-      value: '5'
+      value: 5
     }
   end
 
