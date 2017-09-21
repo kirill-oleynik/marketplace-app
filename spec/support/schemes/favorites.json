@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "required": [
+          "id",
+          "user_id",
+          "application"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "application": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "summary",
+              "logo",
+              "slug"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "logo": {
+                "type": "string|null"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -42,8 +42,8 @@ class CreateSessionCommand
 
   def generate_access_token(data)
     access_token = jwt.encode(
-      client_id: data[:client_id],
       user_id: data[:user_id],
+      client_id: data[:client_id],
       exp: Time.now.to_i + ACCESS_TOKEN_LIFETIME
     )
 

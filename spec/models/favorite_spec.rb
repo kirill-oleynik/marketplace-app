@@ -34,4 +34,20 @@ RSpec.describe Favorite, type: :model do
       end
     end
   end
+
+  describe '.all_for_user', :with_db_cleaner do
+    let(:user) { create(:user) }
+
+    let!(:first_favorite) do
+      create(:favorite, user: user, created_at: 1.day.ago)
+    end
+    let!(:second_favorite) { create(:favorite, user: user) }
+    let!(:third_favorite) { create(:favorite) }
+
+    it 'returns favorites for user, ordered by created at' do
+      expect(
+        Favorite.all_for_user(user)
+      ).to eq([second_favorite, first_favorite])
+    end
+  end
 end

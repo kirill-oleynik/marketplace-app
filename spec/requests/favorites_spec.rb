@@ -131,6 +131,41 @@ RSpec.describe 'Favorites requests' do
     end
   end
 
+  describe '#index' do
+    context 'when user has session' do
+      let!(:user_favorite) { create(:favorite, user: user) }
+      let!(:other_favorite) { create(:favorite) }
+
+      it 'returns user favorites' do
+        expect(favorites_count).to eq(2)
+
+        authenticate_user(user.email, password) do |access_token|
+          get(favorites_path, headers: with_auth_header(access_token))
+
+          data = JSON.parse(response.body)['data']
+
+          expect(response).to have_http_status(200)
+          expect(response.body).to match_response_schema('favorites')
+          expect(
+            data.first['user_id'].to_i
+          ).to eq(user.id)
+          expect(
+            data.length
+          ).to eq(1)
+        end
+      end
+    end
+
+    context 'when user has not session' do
+      it 'returns unauthorized error' do
+        get favorites_path
+
+        expect(response).to have_http_status(401)
+        expect(response.body).to match_response_schema('errors/base')
+      end
+    end
+  end
+
   def favorites_count
     Favorite.count
   end

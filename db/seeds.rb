@@ -147,6 +147,102 @@ end
     phone: Faker::Number.number(10),
     founded: Faker::Date.between(5.years.ago, Date.today),
     logo: generate_logo('teneturquamdoloremque.png')
+  },
+  {
+    title: 'Viva1',
+    slug: 'viva1',
+    summary: Faker::Hipster.sentence,
+    description: Faker::Lorem.paragraph(4),
+    website: Faker::Internet.url,
+    email: Faker::Internet.safe_email,
+    address: generate_address,
+    phone: Faker::Number.number(10),
+    founded: Faker::Date.between(5.years.ago, Date.today),
+    logo: generate_logo('teneturquamdoloremque.png')
+  },
+  {
+    title: 'Viva2',
+    slug: 'viva2',
+    summary: Faker::Hipster.sentence,
+    description: Faker::Lorem.paragraph(4),
+    website: Faker::Internet.url,
+    email: Faker::Internet.safe_email,
+    address: generate_address,
+    phone: Faker::Number.number(10),
+    founded: Faker::Date.between(5.years.ago, Date.today),
+    logo: generate_logo('teneturquamdoloremque.png')
+  },
+  {
+    title: 'Viva3',
+    slug: 'viva3',
+    summary: Faker::Hipster.sentence,
+    description: Faker::Lorem.paragraph(4),
+    website: Faker::Internet.url,
+    email: Faker::Internet.safe_email,
+    address: generate_address,
+    phone: Faker::Number.number(10),
+    founded: Faker::Date.between(5.years.ago, Date.today),
+    logo: generate_logo('teneturquamdoloremque.png')
+  },
+  {
+    title: 'Viva4',
+    slug: 'viva4',
+    summary: Faker::Hipster.sentence,
+    description: Faker::Lorem.paragraph(4),
+    website: Faker::Internet.url,
+    email: Faker::Internet.safe_email,
+    address: generate_address,
+    phone: Faker::Number.number(10),
+    founded: Faker::Date.between(5.years.ago, Date.today),
+    logo: generate_logo('teneturquamdoloremque.png')
+  },
+  {
+    title: 'Viva5',
+    slug: 'viva5',
+    summary: Faker::Hipster.sentence,
+    description: Faker::Lorem.paragraph(4),
+    website: Faker::Internet.url,
+    email: Faker::Internet.safe_email,
+    address: generate_address,
+    phone: Faker::Number.number(10),
+    founded: Faker::Date.between(5.years.ago, Date.today),
+    logo: generate_logo('teneturquamdoloremque.png')
+  },
+  {
+    title: 'Viva6',
+    slug: 'viva6',
+    summary: Faker::Hipster.sentence,
+    description: Faker::Lorem.paragraph(4),
+    website: Faker::Internet.url,
+    email: Faker::Internet.safe_email,
+    address: generate_address,
+    phone: Faker::Number.number(10),
+    founded: Faker::Date.between(5.years.ago, Date.today),
+    logo: generate_logo('teneturquamdoloremque.png')
+  },
+  {
+    title: 'Viva7',
+    slug: 'viva7',
+    summary: Faker::Hipster.sentence,
+    description: Faker::Lorem.paragraph(4),
+    website: Faker::Internet.url,
+    email: Faker::Internet.safe_email,
+    address: generate_address,
+    phone: Faker::Number.number(10),
+    founded: Faker::Date.between(5.years.ago, Date.today),
+    logo: generate_logo('teneturquamdoloremque.png')
+  },
+  {
+    title: 'Viva8',
+    slug: 'viva8',
+    summary: Faker::Hipster.sentence,
+    description: Faker::Lorem.paragraph(4),
+    website: Faker::Internet.url,
+    email: Faker::Internet.safe_email,
+    address: generate_address,
+    phone: Faker::Number.number(10),
+    founded: Faker::Date.between(5.years.ago, Date.today),
+    logo: generate_logo('teneturquamdoloremque.png')
   }
 ].map do |application_attributes|
   next if Application.find_by(slug: application_attributes[:slug])
