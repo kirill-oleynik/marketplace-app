@@ -13,6 +13,14 @@ class SessionRepository
     redis.expire(session_key(session_id), lifetime)
   end
 
+  def delete(user_id:, session_id:)
+    session_key = session_key(session_id)
+    user_sessions_key = user_key(user_id)
+
+    redis.del(session_key)
+    redis.srem(user_sessions_key, session_key)
+  end
+
   def delete_sessions(user_id:, exclude_sessions_ids: [])
     excluded_sessions = session_keys(exclude_sessions_ids)
     sessions_to_delete = all_user_sessions(user_id) - excluded_sessions

@@ -7,6 +7,8 @@ class Favorite < ApplicationRecord
   end
 
   def self.all_for_user(user)
-    where(user_id: user.id).order(created_at: :desc)
+    includes(application: [:application_attachment, :attachment])
+      .where(user_id: user.id)
+      .order(created_at: :desc)
   end
 end
