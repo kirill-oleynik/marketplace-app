@@ -6,21 +6,13 @@
       "type": "object",
       "required": [
         "id",
-        "value",
-        "application_id",
-        "user_id"
+        "value"
       ],
       "properties": {
         "id": {
           "type": "number"
         },
         "value": {
-          "type": "number"
-        },
-        "application_id": {
-          "type": "number"
-        },
-        "user_id": {
           "type": "number"
         }
       }

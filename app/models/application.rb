@@ -3,7 +3,6 @@ class Application < ApplicationRecord
 
   has_many :application_categories, dependent: :destroy
   has_many :categories, through: :application_categories
-  has_many :reviews, dependent: :destroy
   has_many :favorites, dependent: :destroy
 
   has_one :application_attachment, dependent: :destroy
@@ -15,7 +14,7 @@ class Application < ApplicationRecord
   end
 
   def categories_ids
-    categories.ids
+    categories.distinct.ids
   end
 
   def logo

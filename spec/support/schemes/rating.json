@@ -12,7 +12,7 @@
       ],
       "properties": {
         "id": {
-          "type": "number"
+          "type": "number|null"
         },
         "average": {
           "type": "number"

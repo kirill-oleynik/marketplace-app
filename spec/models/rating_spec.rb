@@ -34,11 +34,10 @@ RSpec.describe Rating do
     end
 
     context 'when rating does not exist' do
-      it 'creates new rating and returns it' do
+      it 'returns null object' do
         result = described_class.find_by_application_id(application.id)
 
-        expect(result).to be_instance_of(described_class)
-        expect(described_class.count).to eq(1)
+        expect(result).to be_kind_of(described_class)
       end
     end
   end
@@ -48,7 +47,7 @@ RSpec.describe Rating do
 
     it 'increments rating due to given vote' do
       expect(rating.one_points_votes).to eq(0)
-      described_class.increment_rating_vote(rating_id: rating.id, vote: 1)
+      described_class.increment_rating_vote(rating: rating, vote: 1)
       rating.reload
       expect(rating.one_points_votes).to eq(1)
     end

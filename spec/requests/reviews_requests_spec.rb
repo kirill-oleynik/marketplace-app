@@ -67,7 +67,7 @@ RSpec.describe 'Reviews Requests' do
   end
 
   def review_app
-    Review.first.application
+    Review.first.rating.application
   end
 
   def review_user
