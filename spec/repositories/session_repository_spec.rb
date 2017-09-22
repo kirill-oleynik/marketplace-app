@@ -44,6 +44,21 @@ RSpec.describe SessionRepository do
     end
   end
 
+  describe '#delete' do
+    let(:user_id) { 1 }
+    let(:session_id) { '12345' }
+
+    it 'deletes session and removes it from user sessions' do
+      session_key = subject.session_key(session_id)
+      user_sessions_key = subject.user_key(user_id)
+
+      expect(redis).to receive(:del).with(session_key)
+      expect(redis).to receive(:srem).with(user_sessions_key, session_key)
+
+      subject.delete(user_id: user_id, session_id: session_id)
+    end
+  end
+
   describe '#user_key' do
     it 'returns formatted key with given id' do
       expect(subject.user_key('id')).to eq('user_sess:id')

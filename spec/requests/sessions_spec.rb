@@ -116,4 +116,37 @@ RSpec.describe 'Sessions requests' do
       end
     end
   end
+
+  describe '#destroy' do
+    context 'when user has session', :with_db_cleaner do
+      let(:password) { '123456' }
+      let(:user) { create(:user, password: password) }
+
+      it 'returns destroys user session' do
+        authenticate_user(user.email, password) do |access_token|
+          get current_user_path, headers: with_auth_header(access_token)
+
+          expect(response).to have_http_status(200)
+
+          delete sessions_path, headers: with_auth_header(access_token)
+
+          expect(response).to have_http_status(200)
+
+          get current_user_path, headers: with_auth_header(access_token)
+
+          expect(response).to have_http_status(401)
+          expect(response.body).to match_response_schema('errors/base')
+        end
+      end
+    end
+
+    context 'when user has not session' do
+      it 'returns unauthorized error' do
+        get favorites_path
+
+        expect(response).to have_http_status(401)
+        expect(response.body).to match_response_schema('errors/base')
+      end
+    end
+  end
 end
