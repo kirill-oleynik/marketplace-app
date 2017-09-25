@@ -17,6 +17,8 @@ Rails.application.routes.draw do
       put 'refresh'
     end
   end
+  get '/auth/failure', to: 'oauth_callbacks#failure'
+  get '/auth/linkedin/callback', to: 'oauth_callbacks#linkedin'
 
   resource :profile, only: [:create]
 

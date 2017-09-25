@@ -15,6 +15,10 @@ gem 'sidekiq'
 gem 'connection_pool'
 gem 'fog-aws'
 gem 'carrierwave'
+gem 'active_model_serializers'
+
+gem 'omniauth'
+gem 'omniauth-linkedin-oauth2'
 
 gem 'dry-types'
 gem 'dry-struct'
@@ -24,8 +28,6 @@ gem 'dry-container'
 gem 'dry-validation'
 gem 'dry-auto_inject'
 gem 'dry-transaction', github: 'dry-rb/dry-transaction'
-
-gem 'active_model_serializers'
 
 group :development do
   gem 'listen'
