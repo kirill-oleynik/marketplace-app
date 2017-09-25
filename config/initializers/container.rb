@@ -13,6 +13,7 @@ class Container
     register('review') { Review }
     register('rating') { Rating }
     register('gallery') { Gallery }
+    register('application_candidate') { ApplicationCandidate }
   end
 
   namespace 'schemes' do
@@ -25,6 +26,9 @@ class Container
     register('create_attachment') { CreateAttachmentScheme }
     register('create_application') { CreateApplicationScheme }
     register('create_review') { CreateReviewScheme }
+    register('create_application_candidate') do
+      CreateApplicationCandidateScheme
+    end
   end
 
   namespace 'adapters' do

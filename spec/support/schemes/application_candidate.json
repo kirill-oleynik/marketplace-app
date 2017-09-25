@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "type": "object",
+      "required": [
+        "id",
+        "url",
+        "description",
+        "user_first_name",
+        "user_last_name",
+        "user_email"
+      ],
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "url": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "user_first_name": {
+          "type": "string"
+        },
+        "user_last_name": {
+          "type": "string"
+        },
+        "user_email": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
