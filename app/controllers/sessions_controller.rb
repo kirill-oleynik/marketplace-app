@@ -13,7 +13,6 @@ class SessionsController < ApiController
 
   def destroy
     SignOutInteraction.new.call(client_id: client_id, user_id: current_user.id)
-
     head 200
   end
 
