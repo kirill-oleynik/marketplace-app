@@ -1,12 +1,20 @@
 class JwtAdapter
-  SECRET = ENV['SECRET_KEY_BASE']
+  SECRET_BASE = ENV['SECRET_KEY_BASE']
   ALGORITHM = 'HS512'.freeze
 
-  def encode(payload)
-    JWT.encode(payload, SECRET, ALGORITHM)
+  def encode(payload, signature = '')
+    JWT.encode(payload, secret(signature), ALGORITHM)
   end
 
-  def decode(token)
-    JWT.decode(token, SECRET, true, algorithm: ALGORITHM)
+  def decode(token, signature = '')
+    JWT.decode(
+      token, secret(signature), true, algorithm: ALGORITHM
+    )
+  end
+
+  private
+
+  def secret(signature)
+    SECRET_BASE + signature
   end
 end

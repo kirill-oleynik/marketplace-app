@@ -6,6 +6,12 @@ Rails.application.routes.draw do
 
   resources :users, only: [:create]
 
+  resource :user, only: [] do
+    resource :password_recovery,
+             only: [:create],
+             controller: :password_recovery
+  end
+
   resource :current_user, only: [:show, :update] do
     member do
       put :password

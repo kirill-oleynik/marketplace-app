@@ -29,6 +29,9 @@ class Container
     register('create_application_candidate') do
       CreateApplicationCandidateScheme
     end
+    register('password_recovery_initialize') do
+      PasswordRecovery::InitializeScheme
+    end
   end
 
   namespace 'adapters' do
