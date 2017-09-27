@@ -32,7 +32,7 @@ module PasswordRecovery
 
       Right(user)
     rescue ActiveRecord::RecordNotFound
-      Left([:not_found, { id: params[:email], entity: 'user' }])
+      Left([:invalid, email: [I18n.t('errors.invalid_user_email')]])
     end
 
     def generate_recovery_token(user)

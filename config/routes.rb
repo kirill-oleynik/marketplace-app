@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   resource :user, only: [] do
     resource :password_recovery,
-             only: [:create],
+             only: [:create, :update],
              controller: :password_recovery
   end
 

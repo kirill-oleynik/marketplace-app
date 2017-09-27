@@ -7,7 +7,8 @@ RSpec.describe ChangePasswordInteraction do
       bcrypt: bcrypt,
       repository: repository,
       session_repository: session_repository,
-      jwt: jwt
+      jwt: jwt,
+      change_password: change_password
     ).call(params)
   end
 
@@ -41,6 +42,19 @@ RSpec.describe ChangePasswordInteraction do
 
   let(:decoded_token) { { payload: { client_id: 'client_id' } } }
 
+  let(:change_password) do
+    command = double('change_password')
+
+    allow(command)
+      .to receive(:call)
+      .with(user: user, password: 'new_password')
+      .and_return(double(value: updated_user))
+
+    command
+  end
+
+  let(:updated_user) { build(:user, password_hash: 'updated') }
+
   describe 'when params invalid' do
     let(:change_password_scheme) do
       -> (_) { double(success?: false, errors: 'errors') }
@@ -65,7 +79,7 @@ RSpec.describe ChangePasswordInteraction do
 
     it 'returns right monad with updated user' do
       expect(subject).to be_right
-      expect(subject.value).to eq(user)
+      expect(subject.value).to eq(updated_user)
     end
   end
 end

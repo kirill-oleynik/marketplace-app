@@ -3,6 +3,7 @@ en:
     not_unique: already taken
     authentication: Invalid credentials
     review_value?: must be a number between 1 and 5
+    invalid_user_email: does not belong to any user
     titles:
       forbidden: Forbidden
       unauthorized: Unauthorized

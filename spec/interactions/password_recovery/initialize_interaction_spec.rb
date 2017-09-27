@@ -74,8 +74,7 @@ RSpec.describe PasswordRecovery::InitializeInteraction do
 
     it 'returns Left monad with errors' do
       expect(result).to be_left
-      expect(result.value[0]).to eq(:not_found)
-      expect(result.value[1][:id]).to eq(user.email)
+      expect(result.value[0]).to eq(:invalid)
     end
   end
 

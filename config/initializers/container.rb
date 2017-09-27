@@ -32,6 +32,9 @@ class Container
     register('password_recovery_initialize') do
       PasswordRecovery::InitializeScheme
     end
+    register('password_recovery_finalize') do
+      PasswordRecovery::FinalizeScheme
+    end
   end
 
   namespace 'adapters' do
@@ -49,5 +52,6 @@ class Container
     register('change_email') { ChangeEmailCommand.new }
     register('update_rating') { UpdateRatingCommand.new }
     register('get_recovery_link') { GetRecoveryLinkCommand.new }
+    register('change_password') { ChangePasswordCommand.new }
   end
 end

@@ -26,6 +26,7 @@ class SessionRepository
     sessions_to_delete = all_user_sessions(user_id) - excluded_sessions
     sessions_to_delete.map { |session| redis.del(session) }
 
+    return if sessions_to_delete.empty?
     redis.srem(user_key(user_id), sessions_to_delete)
   end
 

@@ -5,13 +5,13 @@ class ChangePasswordInteraction
     bcrypt: 'adapters.bcrypt',
     repository: 'repositories.user',
     session_repository: 'repositories.session',
-    jwt: 'adapters.jwt'
+    jwt: 'adapters.jwt',
+    change_password: 'commands.change_password'
   ]
 
   step :validate
   step :check_password
-  step :hash_password
-  step :udpate
+  step :persist
   step :delete_other_sessions
 
   def validate(params)
@@ -37,17 +37,9 @@ class ChangePasswordInteraction
     end
   end
 
-  def hash_password(params)
-    password_hash = bcrypt.encode(params[:password])
-
-    Right(params.merge(password_hash: password_hash))
-  end
-
-  def udpate(params)
-    params[:user] = repository.update!(
-      params[:user].id,
-      password_hash: params[:password_hash]
-    )
+  def persist(params)
+    persist_params = params.slice(:user, :password)
+    params[:user] = change_password.call(persist_params).value
 
     Right(params)
   end
