@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+
+  <body>
+    <h1><%= I18n.t('mail.recovery.title') %></h1>
+
+    <p><%= I18n.t('mail.recovery.instructions') %></p>
+
+    <a href="<%= @recovery_link %>">
+      <%= I18n.t('mail.recovery.link_text') %>
+    </a>
+
+    <p><%= I18n.t('mail.recovery.warning') %></p>
+  </body>
+</html>

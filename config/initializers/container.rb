@@ -38,6 +38,7 @@ class Container
     register('bcrypt') { BcryptAdapter.new }
     register('jwt') { JwtAdapter.new }
     register('redis') { RedisAdapter.new }
+    register('mailer') { MailerAdapter.new }
   end
 
   namespace 'commands' do
@@ -47,5 +48,6 @@ class Container
     register('persist_profile') { PersistProfileCommand.new }
     register('change_email') { ChangeEmailCommand.new }
     register('update_rating') { UpdateRatingCommand.new }
+    register('get_recovery_link') { GetRecoveryLinkCommand.new }
   end
 end

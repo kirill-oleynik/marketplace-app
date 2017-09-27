@@ -7,9 +7,10 @@
   end
 %>
 
-concurrency: <%= ENV['SIDEKIQ_THREADS_COUNT'] %>
-pidfile: <%= File.join('tmp', 'pids', 'sidekiq.pid') %>
-queues:
+:concurrency: <%= ENV['SIDEKIQ_THREADS_COUNT'] %>
+:pidfile: <%= File.join('tmp', 'pids', 'sidekiq.pid') %>
+:queues:
   - [low, 1]
+  - [mailers, 1]
   - [default, 2]
   - [critical, 3]

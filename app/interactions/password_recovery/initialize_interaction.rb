@@ -6,7 +6,9 @@ module PasswordRecovery
     include Inject[
       user_repository: 'repositories.user',
       validation_scheme: 'schemes.password_recovery_initialize',
-      jwt: 'adapters.jwt'
+      jwt: 'adapters.jwt',
+      mailer: 'adapters.mailer',
+      get_recovery_link: 'commands.get_recovery_link'
     ]
 
     step :validate
@@ -43,12 +45,20 @@ module PasswordRecovery
     end
 
     def generate_recovery_url(data)
-      recovery_url = "password_recovery/#{data[:recovery_token]}"
+      recovery_link = get_recovery_link.call(
+        user_id: data[:user].id,
+        token: data[:recovery_token]
+      )
 
-      Right(data.merge(recovery_url: recovery_url))
+      Right(data.merge(recovery_link: recovery_link))
     end
 
     def send_email(data)
+      mailer.password_recovery(
+        user: data[:user],
+        recovery_link: data[:recovery_link]
+      )
+
       Right(email: data[:user].email)
     end
   end
