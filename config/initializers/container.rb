@@ -52,6 +52,7 @@ class Container
     register('change_email') { ChangeEmailCommand.new }
     register('update_rating') { UpdateRatingCommand.new }
     register('get_recovery_link') { GetRecoveryLinkCommand.new }
+    register('get_oauth_redirect_url') { GetOauthRedirectUrlCommand.new }
     register('change_password') { ChangePasswordCommand.new }
   end
 end

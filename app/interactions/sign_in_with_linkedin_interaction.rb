@@ -3,10 +3,9 @@ class SignInWithLinkedinInteraction
   include Inject[
     bcrypt: 'adapters.bcrypt',
     repository: 'repositories.user',
-    create_session: 'commands.create_session'
+    create_session: 'commands.create_session',
+    get_oauth_redirect_url: 'commands.get_oauth_redirect_url'
   ]
-
-  WEB_OAUTH_CALLBACK_URL = ENV['WEB_OAUTH_CALLBACK_URL'].freeze
 
   step :ensure_user
   step :create_new_session
@@ -36,14 +35,12 @@ class SignInWithLinkedinInteraction
   end
 
   def build_redirect_url(session)
-    params = {
+    redirect_url = get_oauth_redirect_url.call(
       clientId: session.client_id,
       accessToken: session.access_token,
       refreshToken: session.refresh_token
-    }
-
-    Right(
-      "#{WEB_OAUTH_CALLBACK_URL}?#{params.to_query}"
     )
+
+    Right(redirect_url)
   end
 end

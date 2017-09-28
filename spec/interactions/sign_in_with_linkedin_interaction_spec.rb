@@ -8,12 +8,14 @@ RSpec.describe SignInWithLinkedinInteraction do
   let(:bcrypt) { double(encode: 'bcrypt_hash') }
   let(:repository) { double(find_by_email: user) }
   let(:create_session) { -> (*) { double(value: session) } }
+  let(:get_oauth_redirect_url) { -> (*) { redirect_url_from_session(session) } }
 
   subject(:result) do
     SignInWithLinkedinInteraction.new(
       bcrypt: bcrypt,
       repository: repository,
-      create_session: create_session
+      create_session: create_session,
+      get_oauth_redirect_url: get_oauth_redirect_url
     )
   end
 
@@ -54,7 +56,7 @@ RSpec.describe SignInWithLinkedinInteraction do
   end
 
   def redirect_url_from_session(session)
-    base = "#{SignInWithLinkedinInteraction::WEB_OAUTH_CALLBACK_URL}?"
+    base = '/oauth/callback?'
     base << "accessToken=#{session.access_token}"
     base << "&clientId=#{session.client_id}"
     base << "&refreshToken=#{session.refresh_token}"

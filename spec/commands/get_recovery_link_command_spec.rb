@@ -5,6 +5,6 @@ RSpec.describe GetRecoveryLinkCommand do
 
   it 'returns right formatted recover link' do
     expect(subject)
-      .to match("http://#{ENV['CLIENT_DOMAIN']}/password_recovery/1/token")
+      .to match("#{ENV['WEB_URL']}/password_recovery/1/token")
   end
 end
