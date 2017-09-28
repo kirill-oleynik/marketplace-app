@@ -16,6 +16,6 @@ class PasswordRecoveryController < ApiController
   end
 
   def update_params
-    params.permit(:user_id, :recovery_token, :password, :password_confirmation)
+    params.permit(:recovery_token, :password, :password_confirmation)
   end
 end

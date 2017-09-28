@@ -48,7 +48,7 @@ RSpec.describe PasswordRecovery::InitializeInteraction do
     command = double('get_recovery_link')
     allow(command)
       .to receive(:call)
-      .with(user_id: user.id, token: recovery_token)
+      .with(recovery_token)
       .and_return(recovery_link)
     command
   end

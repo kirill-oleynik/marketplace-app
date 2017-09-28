@@ -10,8 +10,9 @@ module PasswordRecovery
     ]
 
     step :validate
-    step :find_user
     step :check_token
+    step :find_user
+    step :verify_password
     step :persist
     step :delete_sessions
 
@@ -25,6 +26,14 @@ module PasswordRecovery
       end
     end
 
+    def check_token(params)
+      payload, _headers = jwt.decode(params[:recovery_token])
+
+      Right(params.merge(payload))
+    rescue JWT::DecodeError, JWT::ExpiredSignature
+      Left([:unauthorized])
+    end
+
     def find_user(params)
       user = user_repository.find(params[:user_id])
 
@@ -33,12 +42,18 @@ module PasswordRecovery
       Left([:unauthorized])
     end
 
-    def check_token(params)
-      jwt.decode(params[:recovery_token], params[:user].password_hash)
+    def verify_password(params)
+      password_match = ActiveSupport::SecurityUtils
+                       .secure_compare(
+                         params[:password_hash],
+                         params[:user].password_hash
+                       )
 
-      Right(params)
-    rescue JWT::DecodeError, JWT::ExpiredSignature
-      Left([:unauthorized])
+      if password_match
+        Right(params)
+      else
+        Left([:unauthorized])
+      end
     end
 
     def persist(params)

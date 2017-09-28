@@ -69,6 +69,6 @@ RSpec.describe 'PasswordRecovery requests' do
   private
 
   def recovery_token_for(user)
-    JwtAdapter.new.encode({ user_id: user.id }, user.password_hash)
+    JwtAdapter.new.encode(user_id: user.id, password_hash: user.password_hash)
   end
 end

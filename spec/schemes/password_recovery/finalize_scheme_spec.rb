@@ -4,7 +4,6 @@ RSpec.describe PasswordRecovery::FinalizeScheme do
   subject { PasswordRecovery::FinalizeScheme.call(params) }
   let(:valid_params) do
     {
-      user_id: '1',
       recovery_token: 'recovery_token',
       password: 'password',
       password_confirmation: 'password'
@@ -20,24 +19,6 @@ RSpec.describe PasswordRecovery::FinalizeScheme do
   end
 
   context 'when params are invalid' do
-    describe 'user_id' do
-      context 'when value is missing' do
-        let(:params) { valid_params.except(:user_id) }
-
-        it 'is invalid' do
-          expect(subject.success?).to be_falsey
-        end
-      end
-
-      context 'when value has incorrect format' do
-        let(:params) { valid_params.merge(user_id: nil) }
-
-        it 'is invalid' do
-          expect(subject.success?).to be_falsey
-        end
-      end
-    end
-
     describe 'recovery_token' do
       context 'when value is missing' do
         let(:params) { valid_params.except(:recovery_token) }

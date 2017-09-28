@@ -36,19 +36,17 @@ module PasswordRecovery
     end
 
     def generate_recovery_token(user)
-      recovery_token = jwt.encode({
+      recovery_token = jwt.encode(
         user_id: user.id,
+        password_hash: user.password_hash,
         exp: Time.now.to_i + RECOVERY_TOKEN_LIFETIME
-      }, user.password_hash)
+      )
 
       Right(user: user, recovery_token: recovery_token)
     end
 
     def generate_recovery_url(data)
-      recovery_link = get_recovery_link.call(
-        user_id: data[:user].id,
-        token: data[:recovery_token]
-      )
+      recovery_link = get_recovery_link.call(data[:recovery_token])
 
       Right(data.merge(recovery_link: recovery_link))
     end
