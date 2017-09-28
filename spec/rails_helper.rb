@@ -10,6 +10,7 @@ require 'fileutils'
 require 'rspec/rails'
 require 'database_cleaner'
 require 'json_matchers/rspec'
+require 'sidekiq/testing'
 
 %w[helpers adapters shared_examples].map do |dir|
   Dir[Rails.root.join("spec/support/#{dir}/*.rb")].each { |f| require f }
@@ -35,6 +36,8 @@ end
 JsonMatchers.configure do |config|
   config.options[:strict] = true
 end
+
+Sidekiq::Testing.fake!
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
