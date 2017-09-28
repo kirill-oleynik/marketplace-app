@@ -7,7 +7,6 @@ module PasswordRecovery
       user_repository: 'repositories.user',
       validation_scheme: 'schemes.password_recovery_initialize',
       jwt: 'adapters.jwt',
-      mailer: 'adapters.mailer',
       get_recovery_link: 'commands.get_recovery_link'
     ]
 
@@ -52,10 +51,10 @@ module PasswordRecovery
     end
 
     def send_email(data)
-      mailer.password_recovery(
+      RecoveryMailer.recovery_email(
         user: data[:user],
         recovery_link: data[:recovery_link]
-      )
+      ).deliver_later
 
       Right(email: data[:user].email)
     end

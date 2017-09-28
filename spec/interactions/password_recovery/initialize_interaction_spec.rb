@@ -6,7 +6,6 @@ RSpec.describe PasswordRecovery::InitializeInteraction do
       user_repository: user_repository,
       validation_scheme: validation_scheme,
       jwt: jwt,
-      mailer: mailer,
       get_recovery_link: get_recovery_link
     ).call(params)
   end
@@ -43,7 +42,6 @@ RSpec.describe PasswordRecovery::InitializeInteraction do
   let(:jwt) { double('jwt', encode: recovery_token) }
   let(:recovery_token) { 'recovery_token' }
 
-  let(:mailer) { double('mailer') }
   let(:get_recovery_link) do
     command = double('get_recovery_link')
     allow(command)
@@ -52,7 +50,15 @@ RSpec.describe PasswordRecovery::InitializeInteraction do
       .and_return(recovery_link)
     command
   end
+
   let(:recovery_link) { 'recovery_link' }
+
+  before do
+    allow(RecoveryMailer)
+      .to receive(:recovery_email)
+      .with(user: user, recovery_link: recovery_link)
+      .and_return(double(deliver_later: true))
+  end
 
   context 'when params are invalid' do
     let(:validation_success) { false }
@@ -80,10 +86,6 @@ RSpec.describe PasswordRecovery::InitializeInteraction do
 
   context 'when all params are valid' do
     it 'returns Right monad with recovery_token, recovery_url & user' do
-      expect(mailer)
-        .to receive(:password_recovery)
-        .with(user: user, recovery_link: recovery_link)
-
       expect(result).to be_right
       expect(result.value).to eq(email: user.email)
     end

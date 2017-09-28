@@ -41,7 +41,6 @@ class Container
     register('bcrypt') { BcryptAdapter.new }
     register('jwt') { JwtAdapter.new }
     register('redis') { RedisAdapter.new }
-    register('mailer') { MailerAdapter.new }
   end
 
   namespace 'commands' do
