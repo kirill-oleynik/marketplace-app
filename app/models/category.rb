@@ -6,6 +6,12 @@ class Category < ApplicationRecord
     includes(applications: [:application_attachment, :attachment])
   end
 
+  def self.search(query:)
+    like_query = "%#{query}%"
+
+    where('title ilike ? or summary ilike ?', like_query, like_query)
+  end
+
   def applications_count
     applications.size
   end
