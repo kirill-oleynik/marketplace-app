@@ -9,8 +9,21 @@ class Application < ApplicationRecord
   has_one :attachment, through: :application_attachment
   has_one :rating, dependent: :destroy
 
+  default_scope do
+    includes(:application_attachment, :attachment)
+  end
+
   def self.find_by_slug!(slug)
     find_by!(slug: slug)
+  end
+
+  def self.search(query:)
+    like_query = "%#{query}%"
+
+    where(
+      'title ilike ? or summary ilike ? or description ilike ?',
+      like_query, like_query, like_query
+    )
   end
 
   def categories_ids

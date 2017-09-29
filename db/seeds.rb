@@ -272,9 +272,7 @@ Application.find_each do |application|
     'https://i.imgur.com/Kf2zBCBh.jpg',
     'https://s3.amazonaws.com/s3.imagefinder.co/uploads/2015/12/29041550/unsplash-com-photo-1415226581130-91cb7f52f078-1024x768.jpg',
     'http://www.industrialvalvenews.com/wp-content/uploads/2017/07/michael-hirsch-1962-1024x768.jpg',
-    'https://cdn.theculturetrip.com/wp-content/uploads/2017/03/rsz_shanna-camilleri-190745-1024x768.jpg',
     'https://cdn.theculturetrip.com/wp-content/uploads/2017/07/bar-872161_1920-1-1024x768.jpg',
-    'https://picalls.com/wp-content/themes/picalls/timthumb.php?src=http://picalls.com/wp-content/uploads/2016/05/Silhouettes-of-palm-trees.jpg&w=1024&h=768&zc=1',
     'http://georgiakayeblog.com/wp-content/uploads/2016/10/photo-1445620466293-d6316372ab59-1024x768.jpg'
   ].each do |url|
     attachment = create_attachment(url)
