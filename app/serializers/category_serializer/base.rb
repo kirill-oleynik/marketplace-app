@@ -1,7 +1,9 @@
 module CategorySerializer
   class Base < ActiveModel::Serializer
-    attributes :id, :title, :summary, :applications_count
-
     has_many :applications, serializer: ApplicationSerializer::Short
+
+    attributes :id, :title, :summary
+
+    attribute :application_categories_count, key: :applications_count
   end
 end
