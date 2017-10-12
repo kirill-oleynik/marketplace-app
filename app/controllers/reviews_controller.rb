@@ -6,6 +6,15 @@ class ReviewsController < ApiController
     respond_with(result, status: 200, serializer: ReviewSerializer)
   end
 
+  def destroy
+    result = RemoveReviewInteraction.new.call(
+      id: params[:id],
+      user: current_user
+    )
+
+    respond_with(result, status: 200, serializer: ReviewSerializer)
+  end
+
   private
 
   def create_params

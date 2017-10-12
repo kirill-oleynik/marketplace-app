@@ -18,4 +18,8 @@ class User < ApplicationRecord
   def favorite_owner?(favorite)
     id == favorite.user_id
   end
+
+  def review_owner?(review)
+    id == review.user_id
+  end
 end

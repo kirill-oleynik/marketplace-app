@@ -42,12 +42,12 @@ RSpec.describe Rating do
     end
   end
 
-  describe '#increment_rating_vote', :with_db_cleaner do
+  describe '#increment_vote!', :with_db_cleaner do
     let!(:rating) { create(:zero_rating) }
 
     it 'increments rating due to given vote' do
       expect(rating.one_points_votes).to eq(0)
-      described_class.increment_rating_vote(rating: rating, vote: 1)
+      described_class.increment_vote!(rating: rating, vote: 1)
       rating.reload
       expect(rating.one_points_votes).to eq(1)
     end

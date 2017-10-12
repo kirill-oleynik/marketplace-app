@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
   resources :favorites, only: [:index, :destroy]
 
-  resources :reviews, only: [:create]
+  resources :reviews, only: [:create, :destroy]
 
   resources :search, only: [:index]
 

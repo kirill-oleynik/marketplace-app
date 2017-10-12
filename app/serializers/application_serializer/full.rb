@@ -18,12 +18,10 @@ module ApplicationSerializer
     def review
       return unless scope.current_user
 
-      review = Review.find_by_user_and_application(
+      Review.find_by_user_and_application(
         application: object,
         user: scope.current_user
       )
-
-      review.try(:value) || 0
     end
   end
 end
