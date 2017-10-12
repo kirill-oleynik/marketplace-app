@@ -5,7 +5,7 @@ class UpdateRatingCommand
   ]
 
   def call(rating:, review:)
-    rating = rating_repository.increment_rating_vote(
+    rating = rating_repository.increment_vote!(
       rating: rating,
       vote: review.value
     )

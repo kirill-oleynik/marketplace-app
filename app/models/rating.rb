@@ -20,10 +20,17 @@ class Rating < ApplicationRecord
     where(application_id: id).first_or_create!
   end
 
-  def self.increment_rating_vote(rating:, vote:)
+  def self.increment_vote!(rating:, vote:)
     update!(
       rating.id,
       VOTE_FIELDS[vote] => rating[VOTE_FIELDS[vote]] + 1
+    )
+  end
+
+  def self.decrement_vote!(rating:, vote:)
+    update!(
+      rating.id,
+      VOTE_FIELDS[vote] => rating[VOTE_FIELDS[vote]] - 1
     )
   end
 

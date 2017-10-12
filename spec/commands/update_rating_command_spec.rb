@@ -11,7 +11,7 @@ RSpec.describe UpdateRatingCommand do
     repository = double('rating_repository')
 
     allow(repository)
-      .to receive(:increment_rating_vote)
+      .to receive(:increment_vote!)
       .with(rating: rating, vote: 1)
       .and_return(updated_rating)
 
